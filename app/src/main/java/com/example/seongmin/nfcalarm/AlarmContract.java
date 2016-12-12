@@ -9,7 +9,7 @@ import android.provider.BaseColumns;
 public final class AlarmContract {
 
     // Prevent initialization of this class.
-    private AlarmColumns() {}
+    private AlarmContract() {}
 
     public static class AlarmEntry implements BaseColumns {
         public static final String TABLE_NAME = "entry";
