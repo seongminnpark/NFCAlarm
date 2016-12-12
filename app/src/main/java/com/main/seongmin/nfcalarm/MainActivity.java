@@ -39,27 +39,27 @@ public class MainActivity extends AppCompatActivity {
         SQLiteDatabase db = alarmDbHelper.getWritableDatabase();
 
         ContentValues values =  new ContentValues();
-        values.put(AlarmEntry.COLUMN_NAME_TITLE, time);
-        values.put(AlarmEntry.COLUMN_NAME_SUBTITLE, nfcId);
+        values.put(AlarmEntry.COLUMN_NAME_TIME, time);
+        values.put(AlarmEntry.COLUMN_NAME_NFC, nfcId);
 
         long newRowId = db.insert(AlarmEntry.TABLE_NAME, null, values);
 
         return newRowId;
     }
 
-    private long loadAlarm() {
+    private long loadAlarms() {
         SQLiteDatabase db = alarmDbHelper.getReadableDatabase();
 
         String[] projection = {
                 AlarmEntry._ID,
-                AlarmEntry.COLUMN_NAME_TITLE,
-                AlarmEntry.COLUMN_NAME_SUBTITLE
+                AlarmEntry.COLUMN_NAME_TIME,
+                AlarmEntry.COLUMN_NAME_NFC
         };
 
-        String selection = AlarmEntry.COLUMN_NAME_TITLE + " = ?";
+        String selection = AlarmEntry.COLUMN_NAME_TIME + " = ?";
         String[] selectionArgs = { "My Title" };
 
-        String sortOrder =  AlarmEntry.COLUMN_NAME_SUBTITLE + " DESC";
+        String sortOrder =  AlarmEntry.COLUMN_NAME_TIME + " DESC";
 
         Cursor cursor = db.query(
             AlarmEntry.TABLE_NAME,
@@ -82,19 +82,20 @@ public class MainActivity extends AppCompatActivity {
     private void deleteAlarm(String alarmId) {
         SQLiteDatabase db = alarmDbHelper.getReadableDatabase();
 
-        String selection = AlarmEntry.COLUMN_NAME_TITLE + " LIKE ?";
+        String selection = AlarmEntry._ID + " LIKE ?";
         String[] selectionArgs = { alarmId };
         db.delete(AlarmEntry.TABLE_NAME, selection, selectionArgs);
     }
 
-    private int updateAlarm(String alarmId) {
+    private int updateAlarm(String alarmId, String time, String nfcId) {
         SQLiteDatabase db = alarmDbHelper.getReadableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(AlarmEntry.COLUMN_NAME_TITLE, alarmId);
+        values.put(AlarmEntry.COLUMN_NAME_TIME, time);
+        values.put(AlarmEntry.COLUMN_NAME_NFC, nfcId);
 
-        String selection = AlarmEntry.COLUMN_NAME_TITLE + " LIKE ?";
-        String[] selectionArgs = { "My Title" };
+        String selection = AlarmEntry._ID + " LIKE ?";
+        String[] selectionArgs = { alarmId };
 
         int count = db.update(
                 AlarmEntry.TABLE_NAME,

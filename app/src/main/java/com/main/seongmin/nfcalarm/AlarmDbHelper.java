@@ -17,8 +17,8 @@ public class AlarmDbHelper extends SQLiteOpenHelper {
     private static final String SQL_CREATE_ENTRIES =
             "CREATE_TABLE " +
                     AlarmEntry.TABLE_NAME + " (" + AlarmEntry._ID + " INTEGER_PRIMARY_KEY," +
-                    AlarmEntry.COLUMN_NAME_TITLE + TYPE_TEXT + COMMA_SEP +
-                    AlarmEntry.COLUMN_NAME_SUBTITLE + TYPE_TEXT + " )";
+                    AlarmEntry.COLUMN_NAME_TIME + TYPE_TEXT + COMMA_SEP +
+                    AlarmEntry.COLUMN_NAME_NFC + TYPE_TEXT + " )";
     private static final String SQL_DELETE_ENTRIES = "DROP TABLE IS EXISTS " + AlarmEntry.TABLE_NAME;
 
 
