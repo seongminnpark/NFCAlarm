@@ -1,4 +1,4 @@
-package com.example.seongmin.nfcalarm;
+package com.main.seongmin.nfcalarm;
 
 import org.junit.Test;
 

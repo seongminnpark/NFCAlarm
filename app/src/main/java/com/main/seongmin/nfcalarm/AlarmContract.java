@@ -1,4 +1,4 @@
-package com.example.seongmin.nfcalarm;
+package com.main.seongmin.nfcalarm;
 
 import android.provider.BaseColumns;
 
@@ -9,7 +9,8 @@ import android.provider.BaseColumns;
 public final class AlarmContract {
 
     // Prevent initialization of this class.
-    private AlarmContract() {}
+    private AlarmContract() {
+    }
 
     public static class AlarmEntry implements BaseColumns {
         public static final String TABLE_NAME = "entry";

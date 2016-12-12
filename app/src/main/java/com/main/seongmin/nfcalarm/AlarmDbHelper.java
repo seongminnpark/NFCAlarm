@@ -1,9 +1,11 @@
-package com.example.seongmin.nfcalarm;
+package com.main.seongmin.nfcalarm;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import com.example.seongmin.nfcalarm.AlarmContract.AlarmEntry;
+
+import com.main.seongmin.nfcalarm.AlarmContract.AlarmEntry;
+
 /**
  * Created by seongmin on 12/12/16.
  */
@@ -13,8 +15,8 @@ public class AlarmDbHelper extends SQLiteOpenHelper {
     private static final String TYPE_TEXT = "TEXT";
     private static final String COMMA_SEP = ",";
     private static final String SQL_CREATE_ENTRIES =
-                    "CREATE_TABLE " +
-                    AlarmEntry.TABLE_NAME + " ("+ AlarmEntry._ID + " INTEGER_PRIMARY_KEY," +
+            "CREATE_TABLE " +
+                    AlarmEntry.TABLE_NAME + " (" + AlarmEntry._ID + " INTEGER_PRIMARY_KEY," +
                     AlarmEntry.COLUMN_NAME_TITLE + TYPE_TEXT + COMMA_SEP +
                     AlarmEntry.COLUMN_NAME_SUBTITLE + TYPE_TEXT + " )";
     private static final String SQL_DELETE_ENTRIES = "DROP TABLE IS EXISTS " + AlarmEntry.TABLE_NAME;

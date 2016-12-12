@@ -1,4 +1,4 @@
-package com.example.seongmin.nfcalarm;
+package com.main.seongmin.nfcalarm;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
