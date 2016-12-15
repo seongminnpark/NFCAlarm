@@ -12,14 +12,14 @@ import com.main.seongmin.nfcalarm.AlarmContract.AlarmEntry;
 
 public class AlarmDbHelper extends SQLiteOpenHelper {
 
-    private static final String TYPE_TEXT = "TEXT";
+    private static final String TYPE_TEXT = " TEXT";
     private static final String COMMA_SEP = ",";
     private static final String SQL_CREATE_ENTRIES =
-            "CREATE_TABLE " +
-                    AlarmEntry.TABLE_NAME + " (" + AlarmEntry._ID + " INTEGER_PRIMARY_KEY," +
+            "CREATE TABLE " +
+                    AlarmEntry.TABLE_NAME + " (" + AlarmEntry._ID + " INTEGER PRIMARY KEY," +
                     AlarmEntry.COLUMN_NAME_TIME + TYPE_TEXT + COMMA_SEP +
                     AlarmEntry.COLUMN_NAME_NFC + TYPE_TEXT + " )";
-    private static final String SQL_DELETE_ENTRIES = "DROP TABLE IS EXISTS " + AlarmEntry.TABLE_NAME;
+    private static final String SQL_DELETE_ENTRIES = "DROP TABLE IF EXISTS " + AlarmEntry.TABLE_NAME;
 
 
     public static final int DATABASE_VERSION = 1;
@@ -30,6 +30,7 @@ public class AlarmDbHelper extends SQLiteOpenHelper {
     }
 
     public void onCreate(SQLiteDatabase db) {
+        System.out.println(SQL_CREATE_ENTRIES);
         db.execSQL(SQL_CREATE_ENTRIES);
     }
 
