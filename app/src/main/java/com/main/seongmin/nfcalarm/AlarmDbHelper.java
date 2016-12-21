@@ -65,7 +65,7 @@ public class AlarmDbHelper extends SQLiteOpenHelper {
                 AlarmEntry.COLUMN_NAME_NFC
         };
 
-        String sortOrder =  AlarmEntry.COLUMN_NAME_TIME + " DESC";
+        String sortOrder =  AlarmEntry.COLUMN_NAME_TIME + " ASC";
 
         Cursor cursor = db.query(
                 AlarmEntry.TABLE_NAME,
