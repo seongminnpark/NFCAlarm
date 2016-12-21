@@ -19,7 +19,6 @@ import com.main.seongmin.nfcalarm.AlarmContract.AlarmEntry;
 public class MainActivity extends AppCompatActivity {
     private static AlarmDbHelper alarmDbHelper;
     private static AlarmCursorAdapter alarmAdapter;
-    private Cursor alarmCursor;
 
     private ListView alarmListView;
     private FloatingActionButton addButton;
@@ -33,13 +32,12 @@ public class MainActivity extends AppCompatActivity {
         alarmListView = (ListView) findViewById(R.id.listView);
         addButton = (FloatingActionButton) findViewById(R.id.addButton);
 
-        alarmCursor = alarmDbHelper.loadAlarms();
-
         // Set up listView.
-        alarmAdapter = new AlarmCursorAdapter(this, alarmCursor);
+        alarmAdapter = new AlarmCursorAdapter(this, alarmDbHelper.loadAlarms());
         alarmListView.setAdapter(alarmAdapter);
         alarmListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int pos, long id) {
+                Cursor alarmCursor = alarmAdapter.getCursor();
                 alarmCursor.moveToPosition(pos);
                 String alarmId = alarmCursor.getString(alarmCursor.getColumnIndexOrThrow(AlarmEntry._ID));
                 alarmDbHelper.deleteAlarm(alarmId);
@@ -51,7 +49,6 @@ public class MainActivity extends AppCompatActivity {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 DialogFragment timePickerFragment = new TimePickerFragment();
                 timePickerFragment.show(getSupportFragmentManager(), "timePicker");
             }
