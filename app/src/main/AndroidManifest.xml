@@ -3,6 +3,7 @@
     package="com.main.seongmin.nfcalarm">
 
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.NFC" />
 
     <application
         android:allowBackup="true"
@@ -13,12 +14,16 @@
         <activity android:name="com.main.seongmin.nfcalarm.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <activity android:name="com.main.seongmin.nfcalarm.AlarmActivity">
+        <activity android:name="com.main.seongmin.nfcalarm.AlarmActivity"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="android.nfc.action.TAG_DISCOVERED"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
         </activity>
 
         <receiver android:name="com.main.seongmin.nfcalarm.AlarmReceiver"></receiver>
