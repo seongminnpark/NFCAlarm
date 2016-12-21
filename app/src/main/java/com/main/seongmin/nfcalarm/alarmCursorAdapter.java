@@ -31,4 +31,12 @@ public class AlarmCursorAdapter extends CursorAdapter {
 
         alarmItem.setText(time);
     }
+
+    public void refreshAlarmList(Cursor cursor) {
+        getCursor().close();
+        swapCursor(cursor);
+    }
+
 }
+
+

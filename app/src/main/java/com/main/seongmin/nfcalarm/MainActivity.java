@@ -2,9 +2,7 @@ package com.main.seongmin.nfcalarm;
 
 import android.app.Dialog;
 import android.app.TimePickerDialog;
-import android.content.ContentValues;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.icu.util.Calendar;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
@@ -19,11 +17,12 @@ import android.widget.TimePicker;
 import com.main.seongmin.nfcalarm.AlarmContract.AlarmEntry;
 
 public class MainActivity extends AppCompatActivity {
-    private AlarmDbHelper alarmDbHelper;
-    private ListView alarmListView;
+    private static AlarmDbHelper alarmDbHelper;
+    private static AlarmCursorAdapter alarmAdapter;
     private Cursor alarmCursor;
+
+    private ListView alarmListView;
     private FloatingActionButton addButton;
-    private AlarmCursorAdapter alarmAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         alarmListView = (ListView) findViewById(R.id.listView);
         addButton = (FloatingActionButton) findViewById(R.id.addButton);
 
-        alarmCursor = loadAlarms();
+        alarmCursor = alarmDbHelper.loadAlarms();
 
         // Set up listView.
         alarmAdapter = new AlarmCursorAdapter(this, alarmCursor);
@@ -43,8 +42,8 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int pos, long id) {
                 alarmCursor.moveToPosition(pos);
                 String alarmId = alarmCursor.getString(alarmCursor.getColumnIndexOrThrow(AlarmEntry._ID));
-                deleteAlarm(alarmId);
-                refreshAlarmList();
+                alarmDbHelper.deleteAlarm(alarmId);
+                alarmAdapter.refreshAlarmList(alarmDbHelper.loadAlarms());
             }
         });
 
@@ -55,82 +54,8 @@ public class MainActivity extends AppCompatActivity {
 
                 DialogFragment timePickerFragment = new TimePickerFragment();
                 timePickerFragment.show(getSupportFragmentManager(), "timePicker");
-
-                saveAlarm("dddd", "dkjncksj");
-                refreshAlarmList();
             }
         });
-    }
-
-
-    private long saveAlarm(String time, String nfcId) {
-        SQLiteDatabase db = alarmDbHelper.getWritableDatabase();
-
-        ContentValues values =  new ContentValues();
-        values.put(AlarmEntry.COLUMN_NAME_TIME, time);
-        values.put(AlarmEntry.COLUMN_NAME_NFC, nfcId);
-
-        long newAlarmId = db.insert(AlarmEntry.TABLE_NAME, null, values);
-
-        return newAlarmId;
-    }
-
-    private Cursor loadAlarms() {
-        SQLiteDatabase db = alarmDbHelper.getReadableDatabase();
-
-        String[] projection = {
-                AlarmEntry._ID,
-                AlarmEntry.COLUMN_NAME_TIME,
-                AlarmEntry.COLUMN_NAME_NFC
-        };
-
-        String sortOrder =  AlarmEntry.COLUMN_NAME_TIME + " DESC";
-
-        Cursor cursor = db.query(
-            AlarmEntry.TABLE_NAME,
-            projection,
-            null,
-            null,
-            null,
-            null,
-            sortOrder
-            );
-
-        return cursor;
-    }
-
-    private void deleteAlarm(String alarmId) {
-        SQLiteDatabase db = alarmDbHelper.getReadableDatabase();
-
-        String selection = AlarmEntry._ID + " LIKE ?";
-        String[] selectionArgs = { alarmId };
-        db.delete(AlarmEntry.TABLE_NAME, selection, selectionArgs);
-    }
-
-    private int updateAlarm(String alarmId, String time, String nfcId) {
-        SQLiteDatabase db = alarmDbHelper.getReadableDatabase();
-
-        ContentValues values = new ContentValues();
-        values.put(AlarmEntry.COLUMN_NAME_TIME, time);
-        values.put(AlarmEntry.COLUMN_NAME_NFC, nfcId);
-
-        String selection = AlarmEntry._ID + " LIKE ?";
-        String[] selectionArgs = { alarmId };
-
-        int count = db.update(
-                AlarmEntry.TABLE_NAME,
-                values,
-                selection,
-                selectionArgs
-        );
-
-        return count;
-    }
-
-    private void refreshAlarmList() {
-        alarmCursor.close();
-        alarmCursor = loadAlarms();
-        alarmAdapter.swapCursor(alarmCursor);
     }
 
     public static class TimePickerFragment extends DialogFragment implements TimePickerDialog.OnTimeSetListener {
@@ -148,7 +73,9 @@ public class MainActivity extends AppCompatActivity {
         }
 
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-            
+            String time = Integer.toString(hourOfDay) + ":" + Integer.toString(minute);
+            alarmDbHelper.saveAlarm(time, "dkjncksj");
+            alarmAdapter.refreshAlarmList(alarmDbHelper.loadAlarms());
         }
     }
 }
