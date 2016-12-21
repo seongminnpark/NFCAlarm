@@ -18,6 +18,9 @@
             </intent-filter>
         </activity>
 
+        <activity android:name="com.main.seongmin.nfcalarm.AlarmActivity">
+        </activity>
+
         <receiver android:name="com.main.seongmin.nfcalarm.AlarmReceiver"></receiver>
         <service android:name="com.main.seongmin.nfcalarm.AlarmService" />
     </application>
