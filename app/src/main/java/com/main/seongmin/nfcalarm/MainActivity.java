@@ -34,16 +34,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private long saveAlarm(String time, String nfcId) {
+    private void saveAlarm(String time, String nfcId) {
         SQLiteDatabase db = alarmDbHelper.getWritableDatabase();
 
         ContentValues values =  new ContentValues();
         values.put(AlarmEntry.COLUMN_NAME_TIME, time);
         values.put(AlarmEntry.COLUMN_NAME_NFC, nfcId);
 
-        long newRowId = db.insert(AlarmEntry.TABLE_NAME, null, values);
-
-        return newRowId;
+        db.insert(AlarmEntry.TABLE_NAME, null, values);
     }
 
     private void loadAlarms() {
@@ -70,17 +68,13 @@ public class MainActivity extends AppCompatActivity {
             sortOrder
             );
 
-        cursor.moveToFirst();
-        String time = cursor.getString(
-                cursor.getColumnIndexOrThrow(AlarmEntry.COLUMN_NAME_TIME)
-        );
-
+        //cursor.moveToFirst();
     }
 
     private void deleteAlarm(String alarmId) {
         SQLiteDatabase db = alarmDbHelper.getReadableDatabase();
 
-        String selection = AlarmEntry._ID + " LIKE ?";
+        String selection = AlarmEntry.COLUMN_NAME_TIME + " LIKE ?";
         String[] selectionArgs = { alarmId };
         db.delete(AlarmEntry.TABLE_NAME, selection, selectionArgs);
     }
