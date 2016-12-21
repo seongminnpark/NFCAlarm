@@ -5,16 +5,14 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
-
-import java.util.ArrayList;
 
 import com.main.seongmin.nfcalarm.AlarmContract.AlarmEntry;
 
 public class MainActivity extends AppCompatActivity {
     private AlarmDbHelper alarmDbHelper;
     private ListView listView;
+    private Cursor alarmCursor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,9 +26,9 @@ public class MainActivity extends AppCompatActivity {
         saveAlarm("11:30 am", "nfc");
         saveAlarm("11:30 am", "nfc");
 
-//        listView.setAdapter(mockAdapter);
-
-        loadAlarms();
+        alarmCursor = loadAlarms();
+        AlarmCursorAdapter alarmAdapter = new AlarmCursorAdapter(this, alarmCursor);
+        listView.setAdapter(alarmAdapter);
     }
 
 
@@ -46,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         return newAlarmId;
     }
 
-    private void loadAlarms() {
+    private Cursor loadAlarms() {
         SQLiteDatabase db = alarmDbHelper.getReadableDatabase();
 
         String[] projection = {
@@ -67,9 +65,8 @@ public class MainActivity extends AppCompatActivity {
             sortOrder
             );
 
-        cursor.moveToFirst();
 
-        cursor.close();
+        return cursor;
     }
 
     private void deleteAlarm(String alarmId) {

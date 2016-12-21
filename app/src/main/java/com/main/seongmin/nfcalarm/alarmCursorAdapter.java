@@ -8,12 +8,14 @@ import android.view.ViewGroup;
 import android.widget.CursorAdapter;
 import android.widget.TextView;
 
+import com.main.seongmin.nfcalarm.AlarmContract.AlarmEntry;
+
 /**
  * Created by seongmin on 12/21/16.
  */
-public class alarmCursorAdapter extends CursorAdapter {
+public class AlarmCursorAdapter extends CursorAdapter {
 
-    public alarmCursorAdapter(Context context, Cursor cursor) {
+    public AlarmCursorAdapter(Context context, Cursor cursor) {
         super(context, cursor, 0);
     }
 
@@ -24,6 +26,9 @@ public class alarmCursorAdapter extends CursorAdapter {
 
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
-        
+        TextView alarmItem = (TextView) view.findViewById(R.id.item_alarm);
+        String time = cursor.getString(cursor.getColumnIndexOrThrow(AlarmEntry.COLUMN_NAME_TIME));
+
+        alarmItem.setText(time);
     }
 }
