@@ -24,10 +24,6 @@ public class MainActivity extends AppCompatActivity {
         alarmDbHelper = new AlarmDbHelper(getApplicationContext());
         alarmListView = (ListView) findViewById(R.id.listView);
 
-        saveAlarm("11:30 am", "nfc");
-        saveAlarm("12:30 am", "nfc");
-        saveAlarm("14:30 am", "nfc");
-
         alarmCursor = loadAlarms();
 
         final AlarmCursorAdapter alarmAdapter = new AlarmCursorAdapter(this, alarmCursor);
