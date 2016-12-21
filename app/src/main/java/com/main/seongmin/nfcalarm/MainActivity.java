@@ -53,28 +53,27 @@ public class MainActivity extends AppCompatActivity {
                 AlarmEntry.COLUMN_NAME_NFC
         };
 
-        String selection = AlarmEntry.COLUMN_NAME_TIME + " = ?";
-        String[] selectionArgs = { "11:30 am" };
-
         String sortOrder =  AlarmEntry.COLUMN_NAME_TIME + " DESC";
 
         Cursor cursor = db.query(
             AlarmEntry.TABLE_NAME,
             projection,
-            selection,
-            selectionArgs,
+            null,
+            null,
             null,
             null,
             sortOrder
             );
 
-        //cursor.moveToFirst();
+        cursor.moveToFirst();
+
+        cursor.close();
     }
 
     private void deleteAlarm(String alarmId) {
         SQLiteDatabase db = alarmDbHelper.getReadableDatabase();
 
-        String selection = AlarmEntry.COLUMN_NAME_TIME + " LIKE ?";
+        String selection = AlarmEntry._ID + " LIKE ?";
         String[] selectionArgs = { alarmId };
         db.delete(AlarmEntry.TABLE_NAME, selection, selectionArgs);
     }
