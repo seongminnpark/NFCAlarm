@@ -8,6 +8,9 @@ public class Alarm {
     public static String getHour(String rawQuery) {
         String[] parsed = rawQuery.split(":");
         int format12 = Integer.parseInt(parsed[0]) % 12;
+        if (format12 == 0) {
+            format12 = 12;
+        }
         return Integer.toString(format12);
     }
 

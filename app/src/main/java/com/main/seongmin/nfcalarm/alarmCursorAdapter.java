@@ -27,12 +27,17 @@ public class AlarmCursorAdapter extends CursorAdapter {
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
         TextView alarmItem = (TextView) view.findViewById(R.id.item_alarm);
-        String timeQuery = cursor.getString(cursor.getColumnIndexOrThrow(AlarmEntry.COLUMN_NAME_TIME));
 
-        String hour = Alarm.getHour(timeQuery);
-        String minute = Alarm.getMinute(timeQuery);
-        String am = Alarm.getAM(timeQuery) ? "AM" : "PM";
-        String timeText = String.format("%s : %s %s", hour, minute, am);
+        int hour = cursor.getInt(cursor.getColumnIndexOrThrow(AlarmEntry.COLUMN_NAME_HOUR));
+        int minute = cursor.getInt(cursor.getColumnIndexOrThrow(AlarmEntry.COLUMN_NAME_MINUTE));
+        int period = cursor.getInt(cursor.getColumnIndexOrThrow(AlarmEntry.COLUMN_NAME_PERIOD));
+
+        int hour12 = hour % 12;
+        if (hour12 == 0) { hour12 = 12; }
+
+        String periodText = period == 0? "AM" : "PM";
+
+        String timeText = String.format("%d : %d %s", hour12, minute, periodText);
         alarmItem.setText(timeText);
     }
 

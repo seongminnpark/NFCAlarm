@@ -70,8 +70,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-            String time = Integer.toString(hourOfDay) + ":" + Integer.toString(minute);
-            alarmDbHelper.saveAlarm(time, "dkjncksj");
+            int period = hourOfDay < 12 ? 0 : 1;
+            alarmDbHelper.saveAlarm(hourOfDay, minute, period, "dkjncksj");
             alarmAdapter.refreshAlarmList(alarmDbHelper.loadAlarms());
         }
     }

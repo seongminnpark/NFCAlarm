@@ -14,7 +14,9 @@ public final class AlarmContract {
 
     public static class AlarmEntry implements BaseColumns {
         public static final String TABLE_NAME = "alarms";
-        public static final String COLUMN_NAME_TIME = "time";
+        public static final String COLUMN_NAME_HOUR = "hour";
+        public static final String COLUMN_NAME_MINUTE = "minute";
+        public static final String COLUMN_NAME_PERIOD = "period";
         public static final String COLUMN_NAME_NFC = "nfc";
     }
 
