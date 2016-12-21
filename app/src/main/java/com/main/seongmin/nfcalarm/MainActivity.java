@@ -34,14 +34,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void saveAlarm(String time, String nfcId) {
+    private long saveAlarm(String time, String nfcId) {
         SQLiteDatabase db = alarmDbHelper.getWritableDatabase();
 
         ContentValues values =  new ContentValues();
         values.put(AlarmEntry.COLUMN_NAME_TIME, time);
         values.put(AlarmEntry.COLUMN_NAME_NFC, nfcId);
 
-        db.insert(AlarmEntry.TABLE_NAME, null, values);
+        long newAlarmId = db.insert(AlarmEntry.TABLE_NAME, null, values);
+
+        return newAlarmId;
     }
 
     private void loadAlarms() {
