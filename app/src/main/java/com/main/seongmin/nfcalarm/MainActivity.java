@@ -3,6 +3,7 @@ package com.main.seongmin.nfcalarm;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -15,6 +16,8 @@ public class MainActivity extends AppCompatActivity {
     private AlarmDbHelper alarmDbHelper;
     private ListView alarmListView;
     private Cursor alarmCursor;
+    private FloatingActionButton addButton;
+    private AlarmCursorAdapter alarmAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,19 +26,28 @@ public class MainActivity extends AppCompatActivity {
 
         alarmDbHelper = new AlarmDbHelper(getApplicationContext());
         alarmListView = (ListView) findViewById(R.id.listView);
+        addButton = (FloatingActionButton) findViewById(R.id.addButton);
 
         alarmCursor = loadAlarms();
 
-        final AlarmCursorAdapter alarmAdapter = new AlarmCursorAdapter(this, alarmCursor);
+        // Set up listView.
+        alarmAdapter = new AlarmCursorAdapter(this, alarmCursor);
         alarmListView.setAdapter(alarmAdapter);
         alarmListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int pos, long id) {
                 alarmCursor.moveToPosition(pos);
                 String alarmId = alarmCursor.getString(alarmCursor.getColumnIndexOrThrow(AlarmEntry._ID));
                 deleteAlarm(alarmId);
-                alarmCursor.close();
-                alarmCursor = loadAlarms();
-                alarmAdapter.swapCursor(alarmCursor);
+                refreshAlarmList();
+            }
+        });
+
+        // Configure button.
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                saveAlarm("dddd", "dkjncksj");
+                refreshAlarmList();
             }
         });
     }
@@ -103,5 +115,11 @@ public class MainActivity extends AppCompatActivity {
         );
 
         return count;
+    }
+
+    private void refreshAlarmList() {
+        alarmCursor.close();
+        alarmCursor = loadAlarms();
+        alarmAdapter.swapCursor(alarmCursor);
     }
 }
