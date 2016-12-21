@@ -78,7 +78,6 @@ public class MainActivity extends AppCompatActivity {
             sortOrder
             );
 
-
         return cursor;
     }
 
