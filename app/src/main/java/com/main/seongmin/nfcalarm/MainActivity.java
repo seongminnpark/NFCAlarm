@@ -1,5 +1,6 @@
 package com.main.seongmin.nfcalarm;
 
+import android.app.AlarmManager;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.database.Cursor;
@@ -20,6 +21,8 @@ public class MainActivity extends AppCompatActivity {
     private static AlarmDbHelper alarmDbHelper;
     private static AlarmCursorAdapter alarmAdapter;
 
+    private AlarmManager alarmManager;
+
     private ListView alarmListView;
     private FloatingActionButton addButton;
 
@@ -28,9 +31,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         alarmDbHelper = new AlarmDbHelper(getApplicationContext());
         alarmListView = (ListView) findViewById(R.id.listView);
         addButton = (FloatingActionButton) findViewById(R.id.addButton);
+
 
         // Set up listView.
         alarmAdapter = new AlarmCursorAdapter(this, alarmDbHelper.loadAlarms());
