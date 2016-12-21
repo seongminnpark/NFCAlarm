@@ -5,13 +5,15 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.main.seongmin.nfcalarm.AlarmContract.AlarmEntry;
 
 public class MainActivity extends AppCompatActivity {
     private AlarmDbHelper alarmDbHelper;
-    private ListView listView;
+    private ListView alarmListView;
     private Cursor alarmCursor;
 
     @Override
@@ -20,15 +22,26 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         alarmDbHelper = new AlarmDbHelper(getApplicationContext());
-        listView = (ListView) findViewById(R.id.listView);
+        alarmListView = (ListView) findViewById(R.id.listView);
 
         saveAlarm("11:30 am", "nfc");
-        saveAlarm("11:30 am", "nfc");
-        saveAlarm("11:30 am", "nfc");
+        saveAlarm("12:30 am", "nfc");
+        saveAlarm("14:30 am", "nfc");
 
         alarmCursor = loadAlarms();
-        AlarmCursorAdapter alarmAdapter = new AlarmCursorAdapter(this, alarmCursor);
-        listView.setAdapter(alarmAdapter);
+
+        final AlarmCursorAdapter alarmAdapter = new AlarmCursorAdapter(this, alarmCursor);
+        alarmListView.setAdapter(alarmAdapter);
+        alarmListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view, int pos, long id) {
+                alarmCursor.moveToPosition(pos);
+                String alarmId = alarmCursor.getString(alarmCursor.getColumnIndexOrThrow(AlarmEntry._ID));
+                deleteAlarm(alarmId);
+                alarmCursor.close();
+                alarmCursor = loadAlarms();
+                alarmAdapter.swapCursor(alarmCursor);
+            }
+        });
     }
 
 
