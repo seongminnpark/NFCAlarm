@@ -47,7 +47,7 @@ public class AlarmDbHelper extends SQLiteOpenHelper {
         onUpgrade(db, oldVersion, newVersion);
     }
 
-    public long saveAlarm(int hour, int minute, int period, String nfcId) {
+    public int saveAlarm(int hour, int minute, int period, String nfcId) {
         SQLiteDatabase db = getWritableDatabase();
 
         ContentValues values =  new ContentValues();
@@ -58,7 +58,7 @@ public class AlarmDbHelper extends SQLiteOpenHelper {
 
         long newAlarmId = db.insert(AlarmEntry.TABLE_NAME, null, values);
 
-        return newAlarmId;
+        return java.lang.Math.toIntExact(newAlarmId);
     }
 
     public Cursor loadAlarms() {

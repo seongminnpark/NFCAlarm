@@ -14,7 +14,7 @@ public class AlarmService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-
+        AlarmReceiver.completeWakefulIntent(intent);
     }
 
 

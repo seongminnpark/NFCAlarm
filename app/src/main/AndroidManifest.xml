@@ -17,6 +17,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <receiver android:name="com.main.seongmin.nfcalarm.AlarmReceiver"></receiver>
+        <service android:name="com.main.seongmin.nfcalarm.AlarmService" />
     </application>
 
 </manifest>

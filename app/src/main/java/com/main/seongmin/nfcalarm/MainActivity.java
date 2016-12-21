@@ -1,6 +1,5 @@
 package com.main.seongmin.nfcalarm;
 
-import android.app.AlarmManager;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.database.Cursor;
@@ -20,8 +19,7 @@ import com.main.seongmin.nfcalarm.AlarmContract.AlarmEntry;
 public class MainActivity extends AppCompatActivity {
     private static AlarmDbHelper alarmDbHelper;
     private static AlarmCursorAdapter alarmAdapter;
-
-    private AlarmManager alarmManager;
+    private static AlarmReceiver alarmReceiver;
 
     private ListView alarmListView;
     private FloatingActionButton addButton;
@@ -31,9 +29,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         alarmDbHelper = new AlarmDbHelper(getApplicationContext());
         alarmListView = (ListView) findViewById(R.id.listView);
+        alarmReceiver = new AlarmReceiver();
         addButton = (FloatingActionButton) findViewById(R.id.addButton);
 
 
@@ -46,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
                 alarmCursor.moveToPosition(pos);
                 String alarmId = alarmCursor.getString(alarmCursor.getColumnIndexOrThrow(AlarmEntry._ID));
                 alarmDbHelper.deleteAlarm(alarmId);
+                alarmReceiver.cancelAlarm(MainActivity.this, Integer.parseInt(alarmId));
                 alarmAdapter.refreshAlarmList(alarmDbHelper.loadAlarms());
             }
         });
@@ -74,9 +73,10 @@ public class MainActivity extends AppCompatActivity {
                     DateFormat.is24HourFormat(getActivity()));
         }
 
-        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-            int period = hourOfDay < 12 ? 0 : 1;
-            alarmDbHelper.saveAlarm(hourOfDay, minute, period, "dkjncksj");
+        public void onTimeSet(TimePicker view, int hour, int minute) {
+            int period = hour < 12 ? 0 : 1;
+            int alarmId = alarmDbHelper.saveAlarm(hour, minute, period, "dkjncksj");
+            if (alarmId != -1) { alarmReceiver.setAlarm(getContext(), alarmId, hour, minute); }
             alarmAdapter.refreshAlarmList(alarmDbHelper.loadAlarms());
         }
     }
