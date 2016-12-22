@@ -19,8 +19,6 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.main.seongmin.nfcalarm.AlarmListActivity"></activity>
-
         <activity android:name=".AlarmActiveActivity"
             android:launchMode="singleTask">
             <intent-filter>
