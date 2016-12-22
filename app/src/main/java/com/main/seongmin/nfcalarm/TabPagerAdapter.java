@@ -8,9 +8,9 @@ import android.support.v4.app.FragmentPagerAdapter;
 /**
  * Created by seongmin on 12/22/16.
  */
-public class MainFragmentPagerAdapter extends FragmentPagerAdapter {
+public class TabPagerAdapter extends FragmentPagerAdapter {
 
-    public MainFragmentPagerAdapter(FragmentManager fm) {
+    public TabPagerAdapter(FragmentManager fm) {
         super(fm);
     }
 
