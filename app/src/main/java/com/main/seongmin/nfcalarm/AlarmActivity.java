@@ -45,10 +45,22 @@ public class AlarmActivity extends AppCompatActivity {
             if (tag == null) {
                 alarmTextView.setText("tag null");
             } else {
-                alarmTextView.setText(Arrays.toString(tag.getId()));
+
+                alarmTextView.setText(convertTagIDToHexString(tag.getId()));
             }
             //finish();
         }
+    }
+
+    private String convertTagIDToHexString(byte[] bytes) {
+        StringBuilder sb = new StringBuilder();
+        for (byte b : bytes) {
+            int shaved = b & 0xff;
+            if (b < 0x10)
+                sb.append('0');
+            sb.append(Integer.toHexString(shaved));
+        }
+        return sb.toString();
     }
 
 }
