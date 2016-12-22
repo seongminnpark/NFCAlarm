@@ -23,9 +23,10 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager viewPager;
     private TabPagerAdapter pagerAdapter;
 
-    private static AlarmDbHelper alarmDbHelper;
-    private static AlarmCursorAdapter alarmAdapter;
-    private static AlarmReceiver alarmReceiver;
+    public static AlarmDbHelper alarmDbHelper;
+    public static AlarmCursorAdapter alarmAdapter;
+    public static AlarmReceiver alarmReceiver;
+
     private FloatingActionButton addButton;
 
     @Override
