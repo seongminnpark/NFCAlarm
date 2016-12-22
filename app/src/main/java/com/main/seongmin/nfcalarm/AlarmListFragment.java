@@ -16,6 +16,7 @@ public class AlarmListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_alarm_list, container, false);
         return rootView;
+
     }
 
 }
