@@ -16,7 +16,12 @@ public class TabPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int i) {
-        Fragment fragment = new AlarmListFragment();
+        Fragment fragment;
+        switch (i) {
+            case  0: fragment = new AlarmListFragment(); break;
+            case  1: fragment = new NFCListFragment();   break;
+            default: fragment = new AlarmListFragment(); break;
+        }
         return fragment;
     }
 
@@ -28,9 +33,11 @@ public class TabPagerAdapter extends FragmentPagerAdapter {
     @Override
     public CharSequence getPageTitle(int position) {
         CharSequence title;
-        if (position == 0) { title = "Alarms"; }
-        else if (position == 1) { title = "NFC"; }
-        else title = "Error";
+        switch (position) {
+            case  0: title = "Alarms"; break;
+            case  1: title = "NFC";    break;
+            default: title = "Error"; break;
+        }
         return title;
     }
 
