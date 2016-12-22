@@ -7,12 +7,10 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
-import java.util.Arrays;
-
 /**
  * Created by seongmin on 12/21/16.
  */
-public class AlarmActivity extends AppCompatActivity {
+public class AlarmActiveActivity extends AppCompatActivity {
 
     private NfcAdapter nfcAdapter;
     private TextView alarmTextView;
@@ -20,7 +18,7 @@ public class AlarmActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_alarm);
+        setContentView(R.layout.activity_alarm_activate);
 
         nfcAdapter = NfcAdapter.getDefaultAdapter(this);
         alarmTextView = (TextView) findViewById(R.id.alarmText);
