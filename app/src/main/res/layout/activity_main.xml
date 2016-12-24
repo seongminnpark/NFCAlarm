@@ -45,7 +45,7 @@
         android:layout_above="@+id/addButton"
         android:layout_alignParentEnd="true"
         android:visibility="invisible"
-        android:src="@drawable/ic_add_white_24dp"
+        android:src="@drawable/ic_alarm_add_white_24dp"
         app:backgroundTint="@color/colorAccent"
         app:borderWidth="0dp" />
 
@@ -58,7 +58,7 @@
         android:layout_above="@+id/addAlarmButton"
         android:layout_alignParentEnd="true"
         android:visibility="invisible"
-        android:src="@drawable/ic_add_white_24dp"
+        android:src="@drawable/ic_credit_card_white_24dp"
         app:backgroundTint="@color/colorAccent"
         app:borderWidth="0dp" />
 
