@@ -101,6 +101,8 @@ public class MainActivity extends AppCompatActivity {
             addButton.startAnimation(toX);
             addAlarmButton.startAnimation(appear);
             addNFCButton.startAnimation(appear);
+            addAlarmButton.setClickable(true);
+            addNFCButton.setClickable(true);
         }
         fabOpen = !fabOpen;
     }
