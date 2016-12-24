@@ -29,9 +29,9 @@ public class MainActivity extends AppCompatActivity {
     public static AlarmCursorAdapter alarmAdapter;
     public static AlarmReceiver alarmReceiver;
 
-    private FloatingActionButton addButton;
+    private FloatingActionButton addButton, addAlarmButton, addNFCButton;
 
-    private Animation toX, toPlus;
+    private Animation toX, toPlus, appear, disappear;
     private boolean fabOpen;
 
     @Override
@@ -53,20 +53,17 @@ public class MainActivity extends AppCompatActivity {
         alarmReceiver = new AlarmReceiver();
 
         // Configure button.
+        fabOpen = false;
         addButton = (FloatingActionButton) findViewById(R.id.addButton);
-        addButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                animateFab();
-                //DialogFragment timePickerFragment = new TimePickerFragment();
-                //timePickerFragment.show(getSupportFragmentManager(), "timePicker");
-            }
-        });
+        addAlarmButton = (FloatingActionButton) findViewById(R.id.addAlarmButton);
+        addNFCButton = (FloatingActionButton) findViewById(R.id.addNFCButton);
+        setOnclickListeners();
 
         // Animation setup.
-        fabOpen = false;
         toX = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.tox);
         toPlus = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.toplus);
+        appear = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.appear);
+        disappear = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.disappear);
     }
 
     public static class TimePickerFragment extends DialogFragment implements TimePickerDialog.OnTimeSetListener {
@@ -94,9 +91,37 @@ public class MainActivity extends AppCompatActivity {
     private void animateFab() {
         if (fabOpen) {
             addButton.startAnimation(toPlus);
+            addAlarmButton.startAnimation(disappear);
+            addNFCButton.startAnimation(disappear);
         } else {
             addButton.startAnimation(toX);
+            addAlarmButton.startAnimation(appear);
+            addNFCButton.startAnimation(appear);
         }
         fabOpen = !fabOpen;
+    }
+
+    private void setOnclickListeners() {
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                animateFab();
+            }
+        });
+
+        addAlarmButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogFragment timePickerFragment = new TimePickerFragment();
+                timePickerFragment.show(getSupportFragmentManager(), "timePicker");
+            }
+        });
+
+        addNFCButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 }
