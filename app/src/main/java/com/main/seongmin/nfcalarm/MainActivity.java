@@ -172,8 +172,7 @@ public class MainActivity extends AppCompatActivity {
             if (tag == null) {
                 alarmTextView.setText("tag null");
             } else {
-                System.out.println("onNewIntentCalled.");
-                String hexTag = "id: " + Utils.convertTagIDToHexString(tag.getId());
+                String hexTag = Utils.convertTagIDToHexString(tag.getId());
                 alarmTextView.setText(hexTag);
             }
         }

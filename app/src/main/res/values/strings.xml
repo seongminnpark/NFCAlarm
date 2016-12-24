@@ -3,5 +3,6 @@
     
     <string name="add_nfc_instruction">Tap an NFC object!</string>
     <string name="add_nfc_hint">Enter Name</string>
-    <string name="add_nfc_tag">id:</string>
+    <string name="add_nfc_id">ID:</string>
+    <string name="add_nfc_tag"></string>
 </resources>
