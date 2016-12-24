@@ -95,12 +95,12 @@ public class MainActivity extends AppCompatActivity {
             addButton.startAnimation(toPlus);
             addAlarmButton.startAnimation(disappear);
             addNFCButton.startAnimation(disappear);
+            addAlarmButton.setClickable(false);
+            addNFCButton.setClickable(false);
         } else {
             addButton.startAnimation(toX);
             addAlarmButton.startAnimation(appear);
             addNFCButton.startAnimation(appear);
-            addAlarmButton.setClickable(false);
-            addNFCButton.setClickable(false);
         }
         fabOpen = !fabOpen;
     }
