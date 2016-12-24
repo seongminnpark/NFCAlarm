@@ -32,9 +32,6 @@ public class AlarmActiveActivity extends AppCompatActivity {
         if (nfcAdapter == null || !nfcAdapter.isEnabled()) {
             return;
         }
-
-        nfcPendingIntent = PendingIntent.getActivity(
-                this, 0, new Intent(this, this.getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
     }
 
     @Override
@@ -43,7 +40,7 @@ public class AlarmActiveActivity extends AppCompatActivity {
 
         IntentFilter tagDetected = new IntentFilter(NfcAdapter.ACTION_TAG_DISCOVERED);
         IntentFilter[] writeTagFilters = new IntentFilter[] {tagDetected};
-        nfcAdapter.enableForegroundDispatch(this, nfcPendingIntent, writeTagFilters, null);
+        nfcAdapter.enableForegroundDispatch(this, MainActivity.nfcPendingIntent, writeTagFilters, null);
     }
 
     @Override

@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
     public static NFCCursorAdapter nfcCursorAdapter;
 
     public static NfcAdapter nfcAdapter;
-    private PendingIntent nfcPendingIntent;
+    public static PendingIntent nfcPendingIntent;
 
     private NFCAddDialog nfcAddDialog;
 
