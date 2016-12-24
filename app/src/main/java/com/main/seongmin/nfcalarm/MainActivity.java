@@ -31,9 +31,11 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager viewPager;
     private TabPagerAdapter pagerAdapter;
 
-    public static AlarmDbHelper alarmDbHelper;
-    public static AlarmCursorAdapter alarmAdapter;
+    public static DbHelper dbHelper;
+    public static AlarmCursorAdapter alarmCursorAdapter;
     public static AlarmReceiver alarmReceiver;
+
+    public static NFCCursorAdapter nfcCursorAdapter;
 
     public static NfcAdapter nfcAdapter;
     private PendingIntent nfcPendingIntent;
@@ -59,8 +61,8 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
 
         // Alarms setup.
-        alarmDbHelper = new AlarmDbHelper(getApplicationContext());
-        alarmAdapter = new AlarmCursorAdapter(this, alarmDbHelper.loadAlarms());
+        dbHelper = new DbHelper(getApplicationContext());
+        alarmCursorAdapter = new AlarmCursorAdapter(this, dbHelper.loadAlarms());
         alarmReceiver = new AlarmReceiver();
 
         // Configure button.
@@ -74,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Set up nfc.
         nfcAdapter = NfcAdapter.getDefaultAdapter(this);
+        nfcCursorAdapter = new NFCCursorAdapter(this, dbHelper.loadNFCs());
 
         if (nfcAdapter == null || !nfcAdapter.isEnabled()) {
             return;
@@ -87,6 +90,11 @@ public class MainActivity extends AppCompatActivity {
         toPlus = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.toplus);
         appear = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.appear);
         disappear = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.disappear);
+    }
+
+    public static void addNFC(String name, String uid) {
+        int alarmId = dbHelper.saveNFC(name, uid);
+        nfcCursorAdapter.refreshNFCList(dbHelper.loadNFCs());
     }
 
     public static class TimePickerFragment extends DialogFragment implements TimePickerDialog.OnTimeSetListener {
@@ -105,9 +113,9 @@ public class MainActivity extends AppCompatActivity {
 
         public void onTimeSet(TimePicker view, int hour, int minute) {
             int period = hour < 12 ? 0 : 1;
-            int alarmId = alarmDbHelper.saveAlarm(hour, minute, period, "dkjncksj");
+            int alarmId = dbHelper.saveAlarm(hour, minute, period, "dkjncksj");
             if (alarmId != -1) { alarmReceiver.setAlarm(getContext(), alarmId, hour, minute); }
-            alarmAdapter.refreshAlarmList(alarmDbHelper.loadAlarms());
+            alarmCursorAdapter.refreshAlarmList(dbHelper.loadAlarms());
         }
     }
 

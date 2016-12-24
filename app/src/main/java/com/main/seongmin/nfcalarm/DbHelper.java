@@ -12,34 +12,43 @@ import com.main.seongmin.nfcalarm.AlarmContract.AlarmEntry;
  * Created by seongmin on 12/12/16.
  */
 
-public class AlarmDbHelper extends SQLiteOpenHelper {
+public class DbHelper extends SQLiteOpenHelper {
 
     private static final String TYPE_TEXT = " TEXT";
     private static final String TYPE_INTEGER = " INTEGER";
     private static final String COMMA_SEP = ",";
-    private static final String SQL_CREATE_ENTRIES =
+
+    private static final String SQL_CREATE_ALARM_ENTRIES =
             "CREATE TABLE " +
                     AlarmEntry.TABLE_NAME + " (" + AlarmEntry._ID + " INTEGER PRIMARY KEY," +
                     AlarmEntry.COLUMN_NAME_HOUR   + TYPE_INTEGER + COMMA_SEP +
                     AlarmEntry.COLUMN_NAME_MINUTE + TYPE_INTEGER + COMMA_SEP +
                     AlarmEntry.COLUMN_NAME_PERIOD + TYPE_INTEGER + COMMA_SEP +
                     AlarmEntry.COLUMN_NAME_NFC + TYPE_TEXT + " )";
-    private static final String SQL_DELETE_ENTRIES = "DROP TABLE IF EXISTS " + AlarmEntry.TABLE_NAME;
+    private static final String SQL_CREATE_NFC_ENTRIES =
+            "CREATE TABLE " +
+                    NFCContract.NFCEntry.TABLE_NAME + " (" + NFCContract.NFCEntry._ID + " INTEGER PRIMARY KEY," +
+                    NFCContract.NFCEntry.COLUMN_NAME_NAME   + TYPE_TEXT + COMMA_SEP +
+                    NFCContract.NFCEntry.COLUMN_NAME_UID + TYPE_INTEGER + " )";
 
+    private static final String SQL_DELETE_ALARM_ENTRIES = "DROP TABLE IF EXISTS " + AlarmEntry.TABLE_NAME;
+    private static final String SQL_DELETE_NFC_ENTRIES = "DROP TABLE IF EXISTS " + NFCContract.NFCEntry.TABLE_NAME;
 
     public static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "NFCAlarm.db";
 
-    public AlarmDbHelper(Context context) {
+    public DbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(SQL_CREATE_ENTRIES);
+        db.execSQL(SQL_CREATE_ALARM_ENTRIES);
+        db.execSQL(SQL_CREATE_NFC_ENTRIES);
     }
 
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL(SQL_DELETE_ENTRIES);
+        db.execSQL(SQL_DELETE_ALARM_ENTRIES);
+        db.execSQL(SQL_DELETE_NFC_ENTRIES);
         onCreate(db);
     }
 
@@ -111,6 +120,71 @@ public class AlarmDbHelper extends SQLiteOpenHelper {
 
         int count = db.update(
                 AlarmEntry.TABLE_NAME,
+                values,
+                selection,
+                selectionArgs
+        );
+
+        return count;
+    }
+
+    public int saveNFC(String name, String uid) {
+        SQLiteDatabase db = getWritableDatabase();
+
+        ContentValues values =  new ContentValues();
+        values.put(NFCContract.NFCEntry.COLUMN_NAME_NAME, name);
+        values.put(NFCContract.NFCEntry.COLUMN_NAME_UID, uid);
+
+        long newNFCId = db.insert(NFCContract.NFCEntry.TABLE_NAME, null, values);
+
+        return java.lang.Math.toIntExact(newNFCId);
+    }
+
+    public Cursor loadNFCs() {
+        SQLiteDatabase db = getReadableDatabase();
+
+        String[] projection = {
+                NFCContract.NFCEntry._ID,
+                NFCContract.NFCEntry.COLUMN_NAME_NAME,
+                NFCContract.NFCEntry.COLUMN_NAME_UID,
+        };
+
+        String sortOrder =  NFCContract.NFCEntry.COLUMN_NAME_NAME + " ASC, " +
+                NFCContract.NFCEntry.COLUMN_NAME_UID + " ASC";
+
+        Cursor cursor = db.query(
+                NFCContract.NFCEntry.TABLE_NAME,
+                projection,
+                null,
+                null,
+                null,
+                null,
+                null
+        );
+
+        return cursor;
+    }
+
+    public void deleteNFC(String nfcID) {
+        SQLiteDatabase db = getReadableDatabase();
+
+        String selection = NFCContract.NFCEntry._ID + " LIKE ?";
+        String[] selectionArgs = { nfcID };
+        db.delete(NFCContract.NFCEntry.TABLE_NAME, selection, selectionArgs);
+    }
+
+    public int updateNFC(String nfcId, String name, String uid) {
+        SQLiteDatabase db = getReadableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(NFCContract.NFCEntry.COLUMN_NAME_NAME, name);
+        values.put(NFCContract.NFCEntry.COLUMN_NAME_UID, uid);
+
+        String selection = NFCContract.NFCEntry._ID + " LIKE ?";
+        String[] selectionArgs = { nfcId };
+
+        int count = db.update(
+                NFCContract.NFCEntry.TABLE_NAME,
                 values,
                 selection,
                 selectionArgs

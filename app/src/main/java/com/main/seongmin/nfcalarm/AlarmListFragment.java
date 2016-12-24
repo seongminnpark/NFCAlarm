@@ -21,15 +21,15 @@ public class AlarmListFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_alarm_list, container, false);
 
         alarmListView = (ListView) rootView.findViewById(R.id.alarmListView);
-        alarmListView.setAdapter(MainActivity.alarmAdapter);
+        alarmListView.setAdapter(MainActivity.alarmCursorAdapter);
         alarmListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int pos, long id) {
-                Cursor alarmCursor = MainActivity.alarmAdapter.getCursor();
+                Cursor alarmCursor = MainActivity.alarmCursorAdapter.getCursor();
                 alarmCursor.moveToPosition(pos);
                 String alarmId = alarmCursor.getString(alarmCursor.getColumnIndexOrThrow(AlarmContract.AlarmEntry._ID));
-                MainActivity.alarmDbHelper.deleteAlarm(alarmId);
+                MainActivity.dbHelper.deleteAlarm(alarmId);
                 MainActivity.alarmReceiver.cancelAlarm(getActivity(), Integer.parseInt(alarmId));
-                MainActivity.alarmAdapter.refreshAlarmList(MainActivity.alarmDbHelper.loadAlarms());
+                MainActivity.alarmCursorAdapter.refreshAlarmList(MainActivity.dbHelper.loadAlarms());
             }
         });
 

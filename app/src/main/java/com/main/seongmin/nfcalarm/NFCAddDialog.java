@@ -8,6 +8,7 @@ import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 
 /**
@@ -32,7 +33,9 @@ public class NFCAddDialog extends DialogFragment {
                 .setPositiveButton("Add",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
-
+                                String name = getEditText().getText().toString();
+                                String uid = getTextView().getText().toString();
+                                MainActivity.addNFC(name, uid);
                             }
                         }
                 )
@@ -49,5 +52,9 @@ public class NFCAddDialog extends DialogFragment {
 
     public TextView getTextView() {
         return (TextView) getDialog().findViewById(R.id.addNFCTag);
+    }
+
+    public EditText getEditText() {
+        return (EditText) getDialog().findViewById(R.id.addNFCName);
     }
 }
