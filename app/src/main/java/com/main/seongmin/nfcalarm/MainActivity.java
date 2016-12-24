@@ -12,6 +12,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.format.DateFormat;
 import android.view.View;
 import android.view.Window;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.TimePicker;
 
 /**
@@ -28,6 +30,9 @@ public class MainActivity extends AppCompatActivity {
     public static AlarmReceiver alarmReceiver;
 
     private FloatingActionButton addButton;
+
+    private Animation toX, toPlus;
+    private boolean fabOpen;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,10 +57,16 @@ public class MainActivity extends AppCompatActivity {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogFragment timePickerFragment = new TimePickerFragment();
-                timePickerFragment.show(getSupportFragmentManager(), "timePicker");
+                animateFab();
+                //DialogFragment timePickerFragment = new TimePickerFragment();
+                //timePickerFragment.show(getSupportFragmentManager(), "timePicker");
             }
         });
+
+        // Animation setup.
+        fabOpen = false;
+        toX = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.tox);
+        toPlus = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.toplus);
     }
 
     public static class TimePickerFragment extends DialogFragment implements TimePickerDialog.OnTimeSetListener {
@@ -78,5 +89,14 @@ public class MainActivity extends AppCompatActivity {
             if (alarmId != -1) { alarmReceiver.setAlarm(getContext(), alarmId, hour, minute); }
             alarmAdapter.refreshAlarmList(alarmDbHelper.loadAlarms());
         }
+    }
+
+    private void animateFab() {
+        if (fabOpen) {
+            addButton.startAnimation(toPlus);
+        } else {
+            addButton.startAnimation(toX);
+        }
+        fabOpen = !fabOpen;
     }
 }
