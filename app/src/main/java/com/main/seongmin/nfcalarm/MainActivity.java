@@ -57,6 +57,8 @@ public class MainActivity extends AppCompatActivity {
         addButton = (FloatingActionButton) findViewById(R.id.addButton);
         addAlarmButton = (FloatingActionButton) findViewById(R.id.addAlarmButton);
         addNFCButton = (FloatingActionButton) findViewById(R.id.addNFCButton);
+        addAlarmButton.setClickable(false);
+        addNFCButton.setClickable(false);
         setOnclickListeners();
 
         // Animation setup.
@@ -97,6 +99,8 @@ public class MainActivity extends AppCompatActivity {
             addButton.startAnimation(toX);
             addAlarmButton.startAnimation(appear);
             addNFCButton.startAnimation(appear);
+            addAlarmButton.setClickable(false);
+            addNFCButton.setClickable(false);
         }
         fabOpen = !fabOpen;
     }
