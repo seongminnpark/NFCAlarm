@@ -57,20 +57,9 @@ public class AlarmActiveActivity extends AppCompatActivity {
             if (tag == null) {
                 alarmTextView.setText("tag null");
             } else {
-                alarmTextView.setText(convertTagIDToHexString(tag.getId()));
+                alarmTextView.setText(Utils.convertTagIDToHexString(tag.getId()));
             }
         }
-    }
-
-    private String convertTagIDToHexString(byte[] bytes) {
-        StringBuilder sb = new StringBuilder();
-        for (byte b : bytes) {
-            int shaved = b & 0xff;
-            if (b < 0x10)
-                sb.append('0');
-            sb.append(Integer.toHexString(shaved));
-        }
-        return sb.toString();
     }
 
 }

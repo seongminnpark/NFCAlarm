@@ -5,7 +5,7 @@ package com.main.seongmin.nfcalarm;
  */
 public class Utils {
 
-    public String convertTagIDToHexString(byte[] bytes) {
+    public static String convertTagIDToHexString(byte[] bytes) {
         StringBuilder sb = new StringBuilder();
         for (byte b : bytes) {
             int shaved = b & 0xff;

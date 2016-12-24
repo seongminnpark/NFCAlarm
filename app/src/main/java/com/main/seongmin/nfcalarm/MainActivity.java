@@ -1,8 +1,13 @@
 package com.main.seongmin.nfcalarm;
 
 import android.app.Dialog;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.icu.util.Calendar;
+import android.nfc.NfcAdapter;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
@@ -14,6 +19,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.TextView;
 import android.widget.TimePicker;
 
 /**
@@ -28,6 +34,11 @@ public class MainActivity extends AppCompatActivity {
     public static AlarmDbHelper alarmDbHelper;
     public static AlarmCursorAdapter alarmAdapter;
     public static AlarmReceiver alarmReceiver;
+
+    public static NfcAdapter nfcAdapter;
+    private PendingIntent nfcPendingIntent;
+
+    private NFCAddDialog nfcAddDialog;
 
     private FloatingActionButton addButton, addAlarmButton, addNFCButton;
 
@@ -60,6 +71,16 @@ public class MainActivity extends AppCompatActivity {
         addAlarmButton.setClickable(false);
         addNFCButton.setClickable(false);
         setOnclickListeners();
+
+        // Set up nfc.
+        nfcAdapter = NfcAdapter.getDefaultAdapter(this);
+
+        if (nfcAdapter == null || !nfcAdapter.isEnabled()) {
+            return;
+        }
+
+        nfcPendingIntent = PendingIntent.getActivity(
+                this, 0, new Intent(this, this.getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
 
         // Animation setup.
         toX = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.tox);
@@ -119,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 DialogFragment timePickerFragment = new TimePickerFragment();
-                timePickerFragment.show(getSupportFragmentManager(), "timePicker");
+                timePickerFragment.show(getSupportFragmentManager(), "Time Picker");
             }
         });
 
@@ -127,7 +148,36 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                nfcAddDialog = new NFCAddDialog();
+                nfcAddDialog.show(getSupportFragmentManager(), "Add NFC");
+
+                IntentFilter tagDetected = new IntentFilter(NfcAdapter.ACTION_TAG_DISCOVERED);
+                IntentFilter[] writeTagFilters = new IntentFilter[] {tagDetected};
+                nfcAdapter.enableForegroundDispatch(MainActivity.this, nfcPendingIntent, writeTagFilters, null);
+
+                animateFab();
             }
         });
     }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+
+        final String action = intent.getAction();
+
+        if (action.equals(NfcAdapter.ACTION_TAG_DISCOVERED)) {
+            Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
+            TextView alarmTextView = nfcAddDialog.getTextView();
+            if (tag == null) {
+                alarmTextView.setText("tag null");
+            } else {
+                System.out.println("onNewIntentCalled.");
+                String hexTag = "id: " + Utils.convertTagIDToHexString(tag.getId());
+                alarmTextView.setText(hexTag);
+            }
+        }
+    }
+
+
 }
