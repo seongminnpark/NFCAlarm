@@ -25,7 +25,7 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
         alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
         Intent intent = new Intent(context, AlarmReceiver.class);
-        PendingIntent alarmIntent = PendingIntent.getBroadcast(context, alarmId, intent, 0);
+        PendingIntent alarmIntent = PendingIntent.getBroadcast(context, alarmId, intent, PendingIntent.FLAG_CANCEL_CURRENT);
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
@@ -39,7 +39,7 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
     public void cancelAlarm(Context context, int alarmId) {
         if (alarmManager!= null) {
             Intent intent = new Intent(context, AlarmReceiver.class);
-            alarmManager.cancel(PendingIntent.getBroadcast(context, alarmId, intent, 0));
+            alarmManager.cancel(PendingIntent.getBroadcast(context, alarmId, intent, PendingIntent.FLAG_UPDATE_CURRENT));
         }
     }
 

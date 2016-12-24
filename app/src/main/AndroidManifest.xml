@@ -28,6 +28,12 @@
         </activity>
 
         <receiver android:name="com.main.seongmin.nfcalarm.AlarmReceiver"></receiver>
+        <receiver android:name="com.main.seongmin.nfcalarm.AlarmBootReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"></action>
+            </intent-filter>
+        </receiver>
+
         <service android:name="com.main.seongmin.nfcalarm.AlarmService" />
     </application>
 
