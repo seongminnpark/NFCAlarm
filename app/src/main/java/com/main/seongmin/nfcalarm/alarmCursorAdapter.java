@@ -47,6 +47,7 @@ public class AlarmCursorAdapter extends CursorAdapter {
         String timeText = String.format("%d : %d %s", hour12, minute, periodText);
         alarmItemTime.setText(timeText);
 
+        alarmSwitch.setChecked(true);
         // Switch setup.
         alarmSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
