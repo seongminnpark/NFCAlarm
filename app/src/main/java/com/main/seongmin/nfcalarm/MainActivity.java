@@ -21,7 +21,7 @@ import android.widget.TextView;
 /**
  * Created by seongmin on 12/22/16.
  */
-public class MainActivity extends AppCompatActivity implements  DialogInterface.OnDismissListener{
+public class MainActivity extends AppCompatActivity implements DialogInterface.OnDismissListener {
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
@@ -134,7 +134,7 @@ public class MainActivity extends AppCompatActivity implements  DialogInterface.
                 nfcAddDialog.show(getSupportFragmentManager(), "Add NFC");
 
                 IntentFilter tagDetected = new IntentFilter(NfcAdapter.ACTION_TAG_DISCOVERED);
-                IntentFilter[] writeTagFilters = new IntentFilter[] {tagDetected};
+                IntentFilter[] writeTagFilters = new IntentFilter[]{tagDetected};
                 nfcAdapter.enableForegroundDispatch(MainActivity.this, nfcPendingIntent, writeTagFilters, null);
             }
         });
@@ -160,7 +160,6 @@ public class MainActivity extends AppCompatActivity implements  DialogInterface.
 
     @Override
     public void onDismiss(final DialogInterface dialog) {
-        System.out.println("Dismissed!");
         animateFab();
     }
 
