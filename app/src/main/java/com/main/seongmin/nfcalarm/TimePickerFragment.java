@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
+import android.database.Cursor;
 import android.icu.util.Calendar;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -38,8 +39,11 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
     }
 
     public void onTimeSet(TimePicker view, int hour, int minute) {
+        Cursor nfcCursor = MainActivity.dbHelper.loadAlarms();
+        nfcCursor.moveToFirst();
+        String firstNFC = nfcCursor.getString(nfcCursor.getColumnIndexOrThrow(NFCContract.NFCEntry.COLUMN_NAME_NAME));
         int period = hour < 12 ? 0 : 1;
-        int alarmId = MainActivity.dbHelper.saveAlarm(hour, minute, period, "dkjncksj", 1);
+        int alarmId = MainActivity.dbHelper.saveAlarm(hour, minute, period, firstNFC, 1);
         if (alarmId != -1) { MainActivity.alarmReceiver.setAlarm(getContext(), alarmId, hour, minute); }
         MainActivity.alarmCursorAdapter.refreshAlarmList(MainActivity.dbHelper.loadAlarms());
     }
