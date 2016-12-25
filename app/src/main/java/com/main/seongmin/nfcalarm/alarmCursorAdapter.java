@@ -24,6 +24,7 @@ public class AlarmCursorAdapter extends CursorAdapter {
     public AlarmCursorAdapter(Context context, Cursor cursor) {
         super(context, cursor, 0);
     }
+    private Spinner nfcSpinner;
 
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
@@ -35,7 +36,7 @@ public class AlarmCursorAdapter extends CursorAdapter {
         TextView alarmItemTime = (TextView) view.findViewById(R.id.itemAlarmTime);
         ImageButton alarmItemDelete = (ImageButton) view.findViewById(R.id.itemAlarmDelete);
         Switch alarmSwitch = (Switch) view.findViewById(R.id.itemAlarmSwitch);
-        Spinner nfcSpinner = (Spinner) view.findViewById(R.id.itemAlarmNFCSpinner);
+        nfcSpinner = (Spinner) view.findViewById(R.id.itemAlarmNFCSpinner);
 
         // Extract alarm info.
         final String alarmId = cursor.getString(cursor.getColumnIndexOrThrow(AlarmEntry._ID));
@@ -101,12 +102,16 @@ public class AlarmCursorAdapter extends CursorAdapter {
             public void onNothingSelected(AdapterView<?> arg0) { }
         });
 
-
     }
 
     public void refreshAlarmList(Cursor cursor) {
         getCursor().close();
         swapCursor(cursor);
+    }
+
+    public void refreshNFCListInSpinner(Cursor cursor) {
+        SimpleCursorAdapter nfcAdapter = (SimpleCursorAdapter) nfcSpinner.getAdapter();
+        nfcAdapter.swapCursor(cursor);
     }
 
 }

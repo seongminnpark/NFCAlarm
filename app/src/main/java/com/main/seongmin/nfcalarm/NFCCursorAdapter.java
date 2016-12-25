@@ -47,5 +47,6 @@ public class NFCCursorAdapter extends CursorAdapter {
     public void refreshNFCList(Cursor cursor) {
         getCursor().close();
         swapCursor(cursor);
+        MainActivity.alarmCursorAdapter.refreshNFCListInSpinner(cursor);
     }
 }
