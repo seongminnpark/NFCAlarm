@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.CompoundButton;
 import android.widget.CursorAdapter;
 import android.widget.ImageButton;
@@ -85,6 +86,20 @@ public class AlarmCursorAdapter extends CursorAdapter {
         );
         nfcSpinnerCursorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         nfcSpinner.setAdapter(nfcSpinnerCursorAdapter);
+
+        nfcSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> arg0, View view, int position, long id) {
+                Cursor nfcCursor = MainActivity.dbHelper.loadNFCs();
+                nfcCursor.moveToPosition(position);
+                String newNFCId = nfcCursor.getString(nfcCursor.getColumnIndexOrThrow(
+                        NFCContract.NFCEntry.COLUMN_NAME_UID));
+                MainActivity.dbHelper.updateAlarm(alarmId, hour, minute, period, newNFCId, 0);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) { }
+        });
 
 
     }
