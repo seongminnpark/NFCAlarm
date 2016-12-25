@@ -3,11 +3,11 @@
     android:id="@+id/item_alarm"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:orientation="vertical"
     android:paddingBottom="@dimen/alarm_list_vertical_margin"
     android:paddingLeft="@dimen/activity_no_margin"
     android:paddingRight="@dimen/activity_no_margin"
-    android:paddingTop="@dimen/alarm_list_vertical_margin"
-    android:orientation="vertical">
+    android:paddingTop="@dimen/alarm_list_vertical_margin">
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
@@ -22,7 +22,8 @@
             android:id="@+id/itemAlarmTime"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            android:textSize="50sp"/>
 
         <Switch xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/itemAlarmSwitch"
@@ -47,8 +48,8 @@
             android:id="@+id/itemAlarmNFCSpinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
             android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
             android:background="@android:drawable/btn_dropdown"
             android:spinnerMode="dropdown" />
 
@@ -56,8 +57,8 @@
             android:id="@+id/itemAlarmDelete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
             android:background="?android:selectableItemBackground"
             android:focusable="false"
             android:focusableInTouchMode="false"
