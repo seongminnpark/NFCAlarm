@@ -34,7 +34,7 @@ public class NFCAddDialog extends DialogFragment {
                 .setPositiveButton("Add",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
-                                String name = getEditText().getText().toString();
+                                String name = getEditText().getText().toString().trim();
                                 String uid = getTextView().getText().toString();
                                 MainActivity.addNFC(name, uid);
                             }
