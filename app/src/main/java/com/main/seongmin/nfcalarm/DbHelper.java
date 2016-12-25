@@ -30,7 +30,7 @@ public class DbHelper extends SQLiteOpenHelper {
             "CREATE TABLE " +
                     NFCContract.NFCEntry.TABLE_NAME + " (" + NFCContract.NFCEntry._ID + " INTEGER PRIMARY KEY," +
                     NFCContract.NFCEntry.COLUMN_NAME_NAME   + TYPE_TEXT + COMMA_SEP +
-                    NFCContract.NFCEntry.COLUMN_NAME_UID + TYPE_INTEGER + " )";
+                    NFCContract.NFCEntry.COLUMN_NAME_UID + TYPE_TEXT + " )";
 
     private static final String SQL_DELETE_ALARM_ENTRIES = "DROP TABLE IF EXISTS " + AlarmEntry.TABLE_NAME;
     private static final String SQL_DELETE_NFC_ENTRIES = "DROP TABLE IF EXISTS " + NFCContract.NFCEntry.TABLE_NAME;

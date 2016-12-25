@@ -5,4 +5,6 @@
     <string name="add_nfc_hint">Enter Name</string>
     <string name="add_nfc_id">ID:</string>
     <string name="add_nfc_tag"></string>
+
+    <string name="no_nfc">No NFCs</string>
 </resources>
