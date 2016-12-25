@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.CursorAdapter;
+import android.widget.ImageButton;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -29,9 +30,8 @@ public class AlarmCursorAdapter extends CursorAdapter {
     @Override
     public void bindView(View view, final Context context, Cursor cursor) {
         TextView alarmItemTime = (TextView) view.findViewById(R.id.itemAlarmTime);
+        ImageButton alarmItemDelete = (ImageButton) view.findViewById(R.id.itemAlarmDelete);
         Switch alarmSwitch = (Switch) view.findViewById(R.id.itemAlarmSwitch);
-
-        int index = cursor.getPosition();
 
         // Extract alarm info.
         final String alarmId = cursor.getString(cursor.getColumnIndexOrThrow(AlarmEntry._ID));
@@ -61,6 +61,17 @@ public class AlarmCursorAdapter extends CursorAdapter {
                 }
             }
         });
+
+        // Delete button setup.
+        alarmItemDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainActivity.dbHelper.deleteAlarm(alarmId);
+                MainActivity.alarmReceiver.cancelAlarm(v.getContext(), Integer.parseInt(alarmId));
+                MainActivity.alarmCursorAdapter.refreshAlarmList(MainActivity.dbHelper.loadAlarms());
+            }
+        });
+
     }
 
     public void refreshAlarmList(Cursor cursor) {
