@@ -22,16 +22,6 @@ public class NFCListFragment extends Fragment {
 
         nfcListView = (ListView) rootView.findViewById(R.id.nfcListView);
         nfcListView.setAdapter(MainActivity.nfcCursorAdapter);
-        nfcListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View view, int pos, long id) {
-                Cursor nfcCursor = MainActivity.nfcCursorAdapter.getCursor();
-                nfcCursor.moveToPosition(pos);
-                String nfcId = nfcCursor.getString(nfcCursor.getColumnIndexOrThrow(AlarmContract.AlarmEntry._ID));
-                MainActivity.dbHelper.deleteAlarm(nfcId);
-                MainActivity.alarmReceiver.cancelAlarm(getActivity(), Integer.parseInt(nfcId));
-                MainActivity.nfcCursorAdapter.refreshNFCList(MainActivity.dbHelper.loadNFCs());
-            }
-        });
 
         return rootView;
     }
