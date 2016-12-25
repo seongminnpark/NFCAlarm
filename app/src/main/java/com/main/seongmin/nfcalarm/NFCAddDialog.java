@@ -1,5 +1,6 @@
 package com.main.seongmin.nfcalarm;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -45,9 +46,15 @@ public class NFCAddDialog extends DialogFragment {
     }
 
     @Override
-    public void onDismiss(DialogInterface dialog) {
+    public void onDismiss(final DialogInterface dialog) {
         super.onDismiss(dialog);
-        MainActivity.nfcAdapter.disableForegroundDispatch(getActivity());
+
+        final Activity activity = getActivity();
+        MainActivity.nfcAdapter.disableForegroundDispatch(activity);
+
+        if (activity instanceof DialogInterface.OnDismissListener) {
+            ((DialogInterface.OnDismissListener) activity).onDismiss(dialog);
+        }
     }
 
     public TextView getTextView() {
