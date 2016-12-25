@@ -24,7 +24,8 @@ public class DbHelper extends SQLiteOpenHelper {
                     AlarmEntry.COLUMN_NAME_HOUR   + TYPE_INTEGER + COMMA_SEP +
                     AlarmEntry.COLUMN_NAME_MINUTE + TYPE_INTEGER + COMMA_SEP +
                     AlarmEntry.COLUMN_NAME_PERIOD + TYPE_INTEGER + COMMA_SEP +
-                    AlarmEntry.COLUMN_NAME_NFC + TYPE_TEXT + " )";
+                    AlarmEntry.COLUMN_NAME_NFC + TYPE_TEXT + COMMA_SEP +
+                    AlarmEntry.COLUMN_NAME_ENABLED + TYPE_INTEGER + " )";
     private static final String SQL_CREATE_NFC_ENTRIES =
             "CREATE TABLE " +
                     NFCContract.NFCEntry.TABLE_NAME + " (" + NFCContract.NFCEntry._ID + " INTEGER PRIMARY KEY," +
@@ -56,7 +57,7 @@ public class DbHelper extends SQLiteOpenHelper {
         onUpgrade(db, oldVersion, newVersion);
     }
 
-    public int saveAlarm(int hour, int minute, int period, String nfcId) {
+    public int saveAlarm(int hour, int minute, int period, String nfcId, int enabled) {
         SQLiteDatabase db = getWritableDatabase();
 
         ContentValues values =  new ContentValues();
@@ -64,6 +65,7 @@ public class DbHelper extends SQLiteOpenHelper {
         values.put(AlarmEntry.COLUMN_NAME_MINUTE, minute);
         values.put(AlarmEntry.COLUMN_NAME_PERIOD, period);
         values.put(AlarmEntry.COLUMN_NAME_NFC, nfcId);
+        values.put(AlarmEntry.COLUMN_NAME_ENABLED, enabled);
 
         long newAlarmId = db.insert(AlarmEntry.TABLE_NAME, null, values);
 
@@ -78,7 +80,8 @@ public class DbHelper extends SQLiteOpenHelper {
                 AlarmEntry.COLUMN_NAME_HOUR,
                 AlarmEntry.COLUMN_NAME_MINUTE,
                 AlarmEntry.COLUMN_NAME_PERIOD,
-                AlarmEntry.COLUMN_NAME_NFC
+                AlarmEntry.COLUMN_NAME_NFC,
+                AlarmEntry.COLUMN_NAME_ENABLED
         };
 
         String sortOrder =  AlarmEntry.COLUMN_NAME_PERIOD + " ASC, " +
@@ -106,7 +109,7 @@ public class DbHelper extends SQLiteOpenHelper {
         db.delete(AlarmEntry.TABLE_NAME, selection, selectionArgs);
     }
 
-    public int updateAlarm(String alarmId, int hour, int minute, int period, String nfcId) {
+    public int updateAlarm(String alarmId, int hour, int minute, int period, String nfcId, int enabled) {
         SQLiteDatabase db = getReadableDatabase();
 
         ContentValues values = new ContentValues();
@@ -114,6 +117,7 @@ public class DbHelper extends SQLiteOpenHelper {
         values.put(AlarmEntry.COLUMN_NAME_MINUTE, minute);
         values.put(AlarmEntry.COLUMN_NAME_PERIOD, period);
         values.put(AlarmEntry.COLUMN_NAME_NFC, nfcId);
+        values.put(AlarmEntry.COLUMN_NAME_ENABLED, enabled);
 
         String selection = AlarmEntry._ID + " LIKE ?";
         String[] selectionArgs = { alarmId };

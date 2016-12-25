@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
 
         public void onTimeSet(TimePicker view, int hour, int minute) {
             int period = hour < 12 ? 0 : 1;
-            int alarmId = dbHelper.saveAlarm(hour, minute, period, "dkjncksj");
+            int alarmId = dbHelper.saveAlarm(hour, minute, period, "dkjncksj", 1);
             if (alarmId != -1) { alarmReceiver.setAlarm(getContext(), alarmId, hour, minute); }
             alarmCursorAdapter.refreshAlarmList(dbHelper.loadAlarms());
         }
