@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.CursorAdapter;
 import android.widget.ImageButton;
+import android.widget.SimpleCursorAdapter;
+import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -32,6 +34,7 @@ public class AlarmCursorAdapter extends CursorAdapter {
         TextView alarmItemTime = (TextView) view.findViewById(R.id.itemAlarmTime);
         ImageButton alarmItemDelete = (ImageButton) view.findViewById(R.id.itemAlarmDelete);
         Switch alarmSwitch = (Switch) view.findViewById(R.id.itemAlarmSwitch);
+        Spinner nfcSpinner = (Spinner) view.findViewById(R.id.itemAlarmNFCSpinner);
 
         // Extract alarm info.
         final String alarmId = cursor.getString(cursor.getColumnIndexOrThrow(AlarmEntry._ID));
@@ -71,6 +74,18 @@ public class AlarmCursorAdapter extends CursorAdapter {
                 MainActivity.alarmCursorAdapter.refreshAlarmList(MainActivity.dbHelper.loadAlarms());
             }
         });
+
+        // NFC List Spinner setup.
+        String[] fromColumns = { NFCContract.NFCEntry.COLUMN_NAME_NAME };
+        int[] toViews = { android.R.id.text1};
+        Cursor nfcSpinnerCursor = MainActivity.dbHelper.loadNFCs();
+        SimpleCursorAdapter nfcSpinnerCursorAdapter = new SimpleCursorAdapter(
+                context, android.R.layout.simple_spinner_item, nfcSpinnerCursor, fromColumns, toViews,
+                CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER
+        );
+        nfcSpinnerCursorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        nfcSpinner.setAdapter(nfcSpinnerCursorAdapter);
+
 
     }
 
