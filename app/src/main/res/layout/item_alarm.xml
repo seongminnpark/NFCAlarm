@@ -23,13 +23,15 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentStart="true"
-            android:textSize="50sp"/>
+            android:layout_centerVertical="true"
+            android:textSize="50sp" />
 
         <Switch xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/itemAlarmSwitch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
             android:focusable="false"
             android:focusableInTouchMode="false" />
 
