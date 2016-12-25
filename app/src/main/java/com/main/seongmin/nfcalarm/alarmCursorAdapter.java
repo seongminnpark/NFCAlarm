@@ -39,6 +39,7 @@ public class AlarmCursorAdapter extends CursorAdapter {
         final int minute = cursor.getInt(cursor.getColumnIndexOrThrow(AlarmEntry.COLUMN_NAME_MINUTE));
         final int period = cursor.getInt(cursor.getColumnIndexOrThrow(AlarmEntry.COLUMN_NAME_PERIOD));
         final String nfcId = cursor.getString(cursor.getColumnIndexOrThrow(AlarmEntry.COLUMN_NAME_NFC));
+        final int enabled = cursor.getInt(cursor.getColumnIndexOrThrow(AlarmEntry.COLUMN_NAME_ENABLED));
 
         // Time display setup.
         int hour12 = hour % 12;
@@ -47,8 +48,8 @@ public class AlarmCursorAdapter extends CursorAdapter {
         String timeText = String.format("%d : %d %s", hour12, minute, periodText);
         alarmItemTime.setText(timeText);
 
-        alarmSwitch.setChecked(true);
         // Switch setup.
+        alarmSwitch.setChecked(enabled == 1 ? true : false);
         alarmSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
