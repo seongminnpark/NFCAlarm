@@ -1,5 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/item_alarm"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"></TextView>
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_no_margin"
+    android:paddingRight="@dimen/activity_no_margin"
+    android:paddingTop="@dimen/activity_vertical_margin">
+
+    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/itemAlarmTime"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></TextView>
+
+    <Switch xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/addNFCButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true" />
+
+</RelativeLayout>

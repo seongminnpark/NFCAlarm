@@ -26,7 +26,7 @@ public class AlarmCursorAdapter extends CursorAdapter {
 
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
-        TextView alarmItem = (TextView) view.findViewById(R.id.item_alarm);
+        TextView alarmItemTime = (TextView) view.findViewById(R.id.itemAlarmTime);
 
         int hour = cursor.getInt(cursor.getColumnIndexOrThrow(AlarmEntry.COLUMN_NAME_HOUR));
         int minute = cursor.getInt(cursor.getColumnIndexOrThrow(AlarmEntry.COLUMN_NAME_MINUTE));
@@ -38,7 +38,7 @@ public class AlarmCursorAdapter extends CursorAdapter {
         String periodText = period == 0? "AM" : "PM";
 
         String timeText = String.format("%d : %d %s", hour12, minute, periodText);
-        alarmItem.setText(timeText);
+        alarmItemTime.setText(timeText);
     }
 
     public void refreshAlarmList(Cursor cursor) {
