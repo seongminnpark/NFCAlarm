@@ -14,12 +14,19 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_alignParentStart="true" />
+    <Spinner
+        android:id="@+id/itemAlarmNFCSpinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:drawable/btn_dropdown"
+        android:layout_toLeftOf="@+id/itemAlarmDelete"
+        android:spinnerMode="dropdown" />
 
     <ImageButton
         android:id="@+id/itemAlarmDelete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+        android:layout_toLeftOf="@+id/itemAlarmSwitch"
         android:background="?android:selectableItemBackground"
         android:focusable="false"
         android:focusableInTouchMode="false"
