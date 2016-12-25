@@ -82,10 +82,10 @@ public class AlarmCursorAdapter extends CursorAdapter {
         int[] toViews = { android.R.id.text1};
         Cursor nfcSpinnerCursor = MainActivity.dbHelper.loadNFCs();
         SimpleCursorAdapter nfcSpinnerCursorAdapter = new SimpleCursorAdapter(
-                context, android.R.layout.simple_spinner_item, nfcSpinnerCursor, fromColumns, toViews,
+                context, R.layout.spinner_item_nfc, nfcSpinnerCursor, fromColumns, toViews,
                 CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER
         );
-        nfcSpinnerCursorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        nfcSpinnerCursorAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item_nfc);
         nfcSpinner.setAdapter(nfcSpinnerCursorAdapter);
 
         nfcSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
