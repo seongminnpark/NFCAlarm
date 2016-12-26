@@ -169,11 +169,11 @@ public class DbHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
-    public void deleteNFC(String nfcID) {
+    public void deleteNFC(String nfcId) {
         SQLiteDatabase db = getReadableDatabase();
 
         String selection = NFCContract.NFCEntry._ID + " LIKE ?";
-        String[] selectionArgs = { nfcID };
+        String[] selectionArgs = { nfcId };
         db.delete(NFCContract.NFCEntry.TABLE_NAME, selection, selectionArgs);
     }
 
@@ -195,6 +195,35 @@ public class DbHelper extends SQLiteOpenHelper {
         );
 
         return count;
+    }
+
+    public NFC getNFCWithId(String nfcId) {
+        SQLiteDatabase db = getReadableDatabase();
+
+        String[] projection = {
+                NFCContract.NFCEntry._ID,
+                NFCContract.NFCEntry.COLUMN_NAME_NAME,
+                NFCContract.NFCEntry.COLUMN_NAME_UID,
+        };
+
+        String selection = NFCContract.NFCEntry._ID + " LIKE ?";
+        String[] selectionArgs = { nfcId };
+
+        Cursor cursor = db.query(
+                NFCContract.NFCEntry.TABLE_NAME,
+                projection,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                null
+        );
+
+        cursor.moveToFirst();
+        String uid = cursor.getString(cursor.getColumnIndexOrThrow(NFCContract.NFCEntry.COLUMN_NAME_UID));
+        String name = cursor.getString(cursor.getColumnIndexOrThrow(NFCContract.NFCEntry.COLUMN_NAME_UID));
+        NFC nfc = new NFC(uid, name);
+        return nfc;
     }
 
 }
