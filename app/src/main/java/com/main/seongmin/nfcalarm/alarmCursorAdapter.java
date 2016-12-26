@@ -95,7 +95,7 @@ public class AlarmCursorAdapter extends CursorAdapter {
                 Cursor nfcCursor = MainActivity.dbHelper.loadNFCs();
                 nfcCursor.moveToPosition(position);
                 String newNFCId = nfcCursor.getString(nfcCursor.getColumnIndexOrThrow(
-                        NFCContract.NFCEntry.COLUMN_NAME_UID));
+                        NFCContract.NFCEntry._ID));
                 MainActivity.dbHelper.updateAlarm(alarmId, hour, minute, period, newNFCId, enabled);
                 MainActivity.alarmReceiver.setAlarm(context, Integer.parseInt(alarmId), hour, minute, newNFCId);
             }
