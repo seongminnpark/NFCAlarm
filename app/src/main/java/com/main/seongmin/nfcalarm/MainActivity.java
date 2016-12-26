@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
-    private TabPagerAdapter pagerAdapter;
+    public static TabPagerAdapter pagerAdapter;
 
     public static DbHelper dbHelper;
     public static AlarmCursorAdapter alarmCursorAdapter;
