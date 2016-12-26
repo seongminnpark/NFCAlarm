@@ -68,7 +68,7 @@ public class AlarmCursorAdapter extends CursorAdapter {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     MainActivity.dbHelper.updateAlarm(alarmId, hour, minute, period, nfcId, 1);
-                    MainActivity.alarmReceiver.setAlarm(context, Integer.parseInt(alarmId), hour, minute);
+                    MainActivity.alarmReceiver.setAlarm(context, Integer.parseInt(alarmId), hour, minute, nfcId);
                 } else {
                     MainActivity.dbHelper.updateAlarm(alarmId, hour, minute, period, nfcId, 0);
                     MainActivity.alarmReceiver.cancelAlarm(context, Integer.parseInt(alarmId));

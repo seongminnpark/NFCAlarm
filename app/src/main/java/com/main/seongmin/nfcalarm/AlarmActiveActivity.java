@@ -1,8 +1,6 @@
 package com.main.seongmin.nfcalarm;
 
 import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.nfc.NfcAdapter;
@@ -17,7 +15,7 @@ import android.widget.TextView;
 public class AlarmActiveActivity extends AppCompatActivity {
 
     private NfcAdapter nfcAdapter;
-    private TextView alarmTextView;
+    private TextView alarmTapInstructionTextView;
 
     private PendingIntent nfcPendingIntent;
 
@@ -26,9 +24,13 @@ public class AlarmActiveActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarm_activate);
 
-        nfcAdapter = NfcAdapter.getDefaultAdapter(this);
-        alarmTextView = (TextView) findViewById(R.id.alarmText);
+        alarmTapInstructionTextView = (TextView) findViewById(R.id.alarmActiveTapInstruction);
+        String nfcUid = getIntent().getStringExtra(getString(R.string.intent_nfc_uid));
+        String nfcName = getIntent().getStringExtra(getString(R.string.intent_nfc_name));
+        String tapInstruction = R.string.alarm_active_tap_instruction + " " + nfcName;
+        alarmTapInstructionTextView.setText(tapInstruction);
 
+        nfcAdapter = NfcAdapter.getDefaultAdapter(this);
         if (nfcAdapter == null || !nfcAdapter.isEnabled()) {
             return;
         }
@@ -55,9 +57,9 @@ public class AlarmActiveActivity extends AppCompatActivity {
         if (action.equals(NfcAdapter.ACTION_TAG_DISCOVERED)) {
             Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
             if (tag == null) {
-                alarmTextView.setText("tag null");
+                alarmTapInstructionTextView.setText("tag null");
             } else {
-                alarmTextView.setText(Utils.convertTagIDToHexString(tag.getId()));
+                alarmTapInstructionTextView.setText(Utils.convertTagIDToHexString(tag.getId()));
             }
         }
     }

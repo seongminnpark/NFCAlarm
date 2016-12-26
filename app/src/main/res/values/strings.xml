@@ -6,5 +6,11 @@
     <string name="add_nfc_id">ID:</string>
     <string name="add_nfc_tag">not scanned yet</string>
 
+    <string name="intent_nfc_name">nfc_name</string>
+    <string name="intent_nfc_uid">nfc_uid</string>
+
+
+    <string name="alarm_active_tap_instruction">Tap</string>
+
     <string name="no_nfc">No NFCs</string>
 </resources>

@@ -221,7 +221,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
         cursor.moveToFirst();
         String uid = cursor.getString(cursor.getColumnIndexOrThrow(NFCContract.NFCEntry.COLUMN_NAME_UID));
-        String name = cursor.getString(cursor.getColumnIndexOrThrow(NFCContract.NFCEntry.COLUMN_NAME_UID));
+        String name = cursor.getString(cursor.getColumnIndexOrThrow(NFCContract.NFCEntry.COLUMN_NAME_NAME));
         NFC nfc = new NFC(uid, name);
         return nfc;
     }
