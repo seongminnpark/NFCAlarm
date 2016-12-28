@@ -57,7 +57,7 @@ public class AlarmActiveActivity extends AppCompatActivity {
         if (action.equals(NfcAdapter.ACTION_TAG_DISCOVERED)) {
             Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
             if (tag == null) {
-                alarmTapInstructionTextView.setText("tag null");
+                alarmTapInstructionTextView.setText(getString(R.string.invalid_tag_tapped));
             } else {
                 alarmTapInstructionTextView.setText(Utils.convertTagIDToHexString(tag.getId()));
             }

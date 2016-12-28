@@ -15,4 +15,6 @@
     <string name="empty_nfc_id">No NFCs</string>
     <string name="empty_nfc_uid">No NFC Assigned</string>
     <string name="empty_nfc_name">No NFCs</string>
+
+    <string name="invalid_tag_tapped">Invalid tag tapped</string>
 </resources>
