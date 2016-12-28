@@ -19,13 +19,15 @@ public class AlarmActiveActivity extends AppCompatActivity {
 
     private PendingIntent nfcPendingIntent;
 
+    private String nfcUid;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarm_activate);
 
         alarmTapInstructionTextView = (TextView) findViewById(R.id.alarmActiveTapInstruction);
-        String nfcUid = getIntent().getStringExtra(getString(R.string.intent_nfc_uid));
+        nfcUid = getIntent().getStringExtra(getString(R.string.intent_nfc_uid));
         String nfcName = getIntent().getStringExtra(getString(R.string.intent_nfc_name));
         String tapInstruction = getString(R.string.alarm_active_tap_instruction) + " " + nfcName;
         alarmTapInstructionTextView.setText(tapInstruction);
@@ -56,8 +58,13 @@ public class AlarmActiveActivity extends AppCompatActivity {
 
         if (action.equals(NfcAdapter.ACTION_TAG_DISCOVERED)) {
             Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
+            String tagId = Utils.convertTagIDToHexString(tag.getId());
+            System.out.println(nfcUid);
+            System.out.println(tagId);
             if (tag == null) {
                 alarmTapInstructionTextView.setText(getString(R.string.invalid_tag_tapped));
+            } else if (tagId.equals(nfcUid)) {
+                finish();
             } else {
                 alarmTapInstructionTextView.setText(Utils.convertTagIDToHexString(tag.getId()));
             }
