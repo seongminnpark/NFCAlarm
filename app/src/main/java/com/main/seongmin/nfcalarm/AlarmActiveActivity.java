@@ -27,7 +27,7 @@ public class AlarmActiveActivity extends AppCompatActivity {
         alarmTapInstructionTextView = (TextView) findViewById(R.id.alarmActiveTapInstruction);
         String nfcUid = getIntent().getStringExtra(getString(R.string.intent_nfc_uid));
         String nfcName = getIntent().getStringExtra(getString(R.string.intent_nfc_name));
-        String tapInstruction = R.string.alarm_active_tap_instruction + " " + nfcName;
+        String tapInstruction = getString(R.string.alarm_active_tap_instruction) + " " + nfcName;
         alarmTapInstructionTextView.setText(tapInstruction);
 
         nfcAdapter = NfcAdapter.getDefaultAdapter(this);
