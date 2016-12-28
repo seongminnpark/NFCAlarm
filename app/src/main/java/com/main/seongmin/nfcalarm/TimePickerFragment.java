@@ -44,7 +44,7 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
         boolean hasNFC = nfcCursor.getCount() < 1;
         String firstNFCID;
         if (hasNFC) {
-            firstNFCID = getString(R.string.no_nfc);
+            firstNFCID = getString(R.string.empty_nfc_id);
         } else {
             nfcCursor.moveToFirst();
             firstNFCID = nfcCursor.getString(nfcCursor.getColumnIndexOrThrow(NFCContract.NFCEntry._ID));

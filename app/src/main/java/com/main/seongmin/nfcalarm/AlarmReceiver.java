@@ -33,9 +33,17 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
     public void setAlarm(Context context, int alarmId, int hour, int minute, String nfcId) {
         alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
-        NFC nfc = MainActivity.dbHelper.getNFCWithId(nfcId);
-        String nfcUid = nfc.getUid();
-        String nfcName = nfc.getName();
+        String nfcUid;
+        String nfcName;
+
+        if (nfcId == context.getString(R.string.empty_nfc_id)) {
+            nfcUid = context.getString(R.string.empty_nfc_uid);
+            nfcName = context.getString(R.string.empty_nfc_name);
+        } else {
+            NFC nfc = MainActivity.dbHelper.getNFCWithId(nfcId);
+            nfcUid = nfc.getUid();
+            nfcName = nfc.getName();
+        }
 
         Intent intent = new Intent(context, AlarmReceiver.class);
         intent.putExtra(context.getString(R.string.intent_nfc_uid), nfcUid);
