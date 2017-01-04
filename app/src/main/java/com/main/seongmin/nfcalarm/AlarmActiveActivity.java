@@ -3,6 +3,9 @@ package com.main.seongmin.nfcalarm;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.media.RingtoneManager;
 import android.nfc.NfcAdapter;
 import android.nfc.Tag;
 import android.os.Bundle;
@@ -13,6 +16,8 @@ import android.widget.TextView;
  * Created by seongmin on 12/21/16.
  */
 public class AlarmActiveActivity extends AppCompatActivity {
+
+    private MediaPlayer alarmPlayer;
 
     private NfcAdapter nfcAdapter;
     private TextView alarmTapInstructionTextView;
@@ -39,6 +44,18 @@ public class AlarmActiveActivity extends AppCompatActivity {
 
         nfcPendingIntent = PendingIntent.getActivity(
                 this, 0, new Intent(this, this.getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
+
+        AudioManager audioManager = (AudioManager) getSystemService(getApplicationContext().AUDIO_SERVICE);
+       alarmPlayer = MediaPlayer.create(getApplicationContext(), RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM));
+
+        try {
+            float volume = (float) (audioManager.getStreamVolume(AudioManager.STREAM_ALARM));
+            alarmPlayer.setVolume(volume, volume);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        alarmPlayer.start();
     }
 
     @Override
@@ -70,6 +87,12 @@ public class AlarmActiveActivity extends AppCompatActivity {
                 alarmTapInstructionTextView.setText(Utils.convertTagIDToHexString(tag.getId()));
             }
         }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        alarmPlayer.stop();
     }
 
 }
