@@ -90,8 +90,8 @@ public class AlarmActiveActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
+    public void onPause() {
+        super.onPause();
         alarmPlayer.stop();
     }
 
