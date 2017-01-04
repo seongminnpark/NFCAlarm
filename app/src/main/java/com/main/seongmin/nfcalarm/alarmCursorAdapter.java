@@ -68,10 +68,10 @@ public class AlarmCursorAdapter extends CursorAdapter {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     MainActivity.dbHelper.updateAlarm(alarmId, hour, minute, period, nfcId, 1);
-                    MainActivity.alarmReceiver.setAlarm(context, Integer.parseInt(alarmId), hour, minute, nfcId);
+                    AlarmService.setAlarm(context, Integer.parseInt(alarmId), hour, minute, nfcId);
                 } else {
                     MainActivity.dbHelper.updateAlarm(alarmId, hour, minute, period, nfcId, 0);
-                    MainActivity.alarmReceiver.cancelAlarm(context, Integer.parseInt(alarmId));
+                    AlarmService.cancelAlarm(context, Integer.parseInt(alarmId));
                 }
             }
         });
@@ -81,7 +81,7 @@ public class AlarmCursorAdapter extends CursorAdapter {
             @Override
             public void onClick(View v) {
                 MainActivity.dbHelper.deleteAlarm(alarmId);
-                MainActivity.alarmReceiver.cancelAlarm(v.getContext(), Integer.parseInt(alarmId));
+                AlarmService.cancelAlarm(v.getContext(), Integer.parseInt(alarmId));
                 MainActivity.alarmCursorAdapter.refreshAlarmList(MainActivity.dbHelper.loadAlarms());
             }
         });
@@ -97,7 +97,7 @@ public class AlarmCursorAdapter extends CursorAdapter {
                 String newNFCId = nfcCursor.getString(nfcCursor.getColumnIndexOrThrow(
                         NFCContract.NFCEntry._ID));
                 MainActivity.dbHelper.updateAlarm(alarmId, hour, minute, period, newNFCId, enabled);
-                MainActivity.alarmReceiver.setAlarm(context, Integer.parseInt(alarmId), hour, minute, newNFCId);
+                AlarmService.setAlarm(context, Integer.parseInt(alarmId), hour, minute, newNFCId);
             }
 
             @Override

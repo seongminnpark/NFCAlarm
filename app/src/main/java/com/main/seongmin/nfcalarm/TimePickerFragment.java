@@ -52,7 +52,7 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
         int period = hour < 12 ? 0 : 1;
         int alarmId = MainActivity.dbHelper.saveAlarm(hour, minute, period, firstNFCID, 1);
         if (alarmId != -1) {
-            MainActivity.alarmReceiver.setAlarm(getContext(), alarmId, hour, minute, firstNFCID);
+            AlarmService.setAlarm(getContext(), alarmId, hour, minute, firstNFCID);
         }
         MainActivity.alarmCursorAdapter.refreshAlarmList(MainActivity.dbHelper.loadAlarms());
     }
