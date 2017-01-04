@@ -65,7 +65,7 @@ public class AlarmCursorAdapter extends CursorAdapter {
         alarmItemTime.setText(timeText);
 
         // Switch setup.
-        alarmSwitch.setChecked(enabled == 1 ? true : false);
+        alarmSwitch.setChecked(enabled == 1);
         alarmSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
