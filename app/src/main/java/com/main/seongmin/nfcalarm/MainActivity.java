@@ -27,7 +27,8 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
     private ViewPager viewPager;
     public static TabPagerAdapter pagerAdapter;
 
-    public static DbHelper dbHelper;
+    private DbHelper dbHelper;
+
     public static AlarmCursorAdapter alarmCursorAdapter;
     public static AlarmReceiver alarmReceiver;
 
@@ -57,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
         tabLayout.setupWithViewPager(viewPager);
 
         // Alarms setup.
-        dbHelper = new DbHelper(getApplicationContext());
+        dbHelper = DbHelper.getInstance(getApplicationContext());
         alarmCursorAdapter = new AlarmCursorAdapter(this, dbHelper.loadAlarms());
         alarmReceiver = new AlarmReceiver();
 
@@ -86,11 +87,6 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
         toPlus = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.toplus);
         appear = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.appear);
         disappear = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.disappear);
-    }
-
-    public static void addNFC(String name, String uid) {
-        int alarmId = dbHelper.saveNFC(name, uid);
-        nfcCursorAdapter.refreshNFCList(dbHelper.loadNFCs());
     }
 
     private void animateFab() {

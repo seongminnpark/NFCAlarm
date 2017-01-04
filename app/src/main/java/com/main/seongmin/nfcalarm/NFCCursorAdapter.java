@@ -24,7 +24,7 @@ public class NFCCursorAdapter extends CursorAdapter {
     }
 
     @Override
-    public void bindView(View view, Context context, Cursor cursor) {
+    public void bindView(View view, final Context context, Cursor cursor) {
         TextView nfcItemName = (TextView) view.findViewById(R.id.itemNFCName);
         ImageButton nfcItemDelete = (ImageButton) view.findViewById(R.id.itemNFCDelete);
 
@@ -35,11 +35,12 @@ public class NFCCursorAdapter extends CursorAdapter {
         nfcItemName.setText(name + "   " + uid);
 
         // Delete button setup.
+        final DbHelper dbHelper = DbHelper.getInstance(context);
         nfcItemDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MainActivity.dbHelper.deleteNFC(nfcId);
-                MainActivity.nfcCursorAdapter.refreshNFCList(MainActivity.dbHelper.loadNFCs());
+                dbHelper.deleteNFC(nfcId);
+                MainActivity.nfcCursorAdapter.refreshNFCList(dbHelper.loadNFCs());
             }
         });
     }

@@ -36,7 +36,9 @@ public class NFCAddDialog extends DialogFragment {
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 String name = getEditText().getText().toString().trim();
                                 String uid = getTextView().getText().toString();
-                                MainActivity.addNFC(name, uid);
+                                DbHelper dbHelper = DbHelper.getInstance(getContext().getApplicationContext());
+                                dbHelper.saveNFC(name, uid);
+                                MainActivity.nfcCursorAdapter.refreshNFCList(dbHelper.loadNFCs());
                             }
                         }
                 )

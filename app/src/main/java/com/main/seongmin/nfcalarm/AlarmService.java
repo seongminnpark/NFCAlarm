@@ -40,7 +40,7 @@ public class AlarmService extends IntentService {
             nfcUid = context.getString(R.string.empty_nfc_uid);
             nfcName = context.getString(R.string.empty_nfc_name);
         } else {
-            NFC nfc = MainActivity.dbHelper.getNFCWithId(nfcId);
+            NFC nfc = DbHelper.getInstance(context).getNFCWithId(nfcId);
             nfcUid = nfc.getUid();
             nfcName = nfc.getName();
         }

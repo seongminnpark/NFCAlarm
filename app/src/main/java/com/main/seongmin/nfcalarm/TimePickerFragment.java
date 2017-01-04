@@ -40,7 +40,8 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
 
     @Override
     public void onTimeSet(TimePicker view, int hour, int minute) {
-        Cursor nfcCursor = MainActivity.dbHelper.loadNFCs();
+        DbHelper dbHelper = DbHelper.getInstance(getContext().getApplicationContext());
+        Cursor nfcCursor = dbHelper.loadNFCs();
         boolean hasNFC = nfcCursor.getCount() < 1;
         String firstNFCID;
         if (hasNFC) {
@@ -50,10 +51,10 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
             firstNFCID = nfcCursor.getString(nfcCursor.getColumnIndexOrThrow(NFCContract.NFCEntry._ID));
         }
         int period = hour < 12 ? 0 : 1;
-        int alarmId = MainActivity.dbHelper.saveAlarm(hour, minute, period, firstNFCID, 1);
+        int alarmId = dbHelper.saveAlarm(hour, minute, period, firstNFCID, 1);
         if (alarmId != -1) {
             AlarmService.setAlarm(getContext(), alarmId, hour, minute, firstNFCID);
         }
-        MainActivity.alarmCursorAdapter.refreshAlarmList(MainActivity.dbHelper.loadAlarms());
+        MainActivity.alarmCursorAdapter.refreshAlarmList(dbHelper.loadAlarms());
     }
 }

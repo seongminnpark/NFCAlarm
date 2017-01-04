@@ -27,7 +27,7 @@ public class AlarmCursorAdapter extends CursorAdapter {
         super(context, cursor, 0);
         String[] fromColumns = { NFCContract.NFCEntry.COLUMN_NAME_NAME };
         int[] toViews = { android.R.id.text1};
-        Cursor nfcSpinnerCursor = MainActivity.dbHelper.loadNFCs();
+        Cursor nfcSpinnerCursor = DbHelper.getInstance(context).loadNFCs();
         nfcSpinnerCursorAdapter = new SimpleCursorAdapter(
                 context, android.R.layout.simple_spinner_item, nfcSpinnerCursor, fromColumns, toViews,
                 CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER
@@ -42,6 +42,8 @@ public class AlarmCursorAdapter extends CursorAdapter {
 
     @Override
     public void bindView(View view, final Context context, Cursor cursor) {
+        final DbHelper dbHelper = DbHelper.getInstance(context);
+
         TextView alarmItemTime = (TextView) view.findViewById(R.id.itemAlarmTime);
         ImageButton alarmItemDelete = (ImageButton) view.findViewById(R.id.itemAlarmDelete);
         Switch alarmSwitch = (Switch) view.findViewById(R.id.itemAlarmSwitch);
@@ -67,10 +69,10 @@ public class AlarmCursorAdapter extends CursorAdapter {
         alarmSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    MainActivity.dbHelper.updateAlarm(alarmId, hour, minute, period, nfcId, 1);
+                    dbHelper.updateAlarm(alarmId, hour, minute, period, nfcId, 1);
                     AlarmService.setAlarm(context, Integer.parseInt(alarmId), hour, minute, nfcId);
                 } else {
-                    MainActivity.dbHelper.updateAlarm(alarmId, hour, minute, period, nfcId, 0);
+                    dbHelper.updateAlarm(alarmId, hour, minute, period, nfcId, 0);
                     AlarmService.cancelAlarm(context, Integer.parseInt(alarmId));
                 }
             }
@@ -80,9 +82,9 @@ public class AlarmCursorAdapter extends CursorAdapter {
         alarmItemDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MainActivity.dbHelper.deleteAlarm(alarmId);
+                dbHelper.deleteAlarm(alarmId);
                 AlarmService.cancelAlarm(v.getContext(), Integer.parseInt(alarmId));
-                MainActivity.alarmCursorAdapter.refreshAlarmList(MainActivity.dbHelper.loadAlarms());
+                MainActivity.alarmCursorAdapter.refreshAlarmList(dbHelper.loadAlarms());
             }
         });
 
@@ -92,11 +94,11 @@ public class AlarmCursorAdapter extends CursorAdapter {
         nfcSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> arg0, View view, int position, long id) {
-                Cursor nfcCursor = MainActivity.dbHelper.loadNFCs();
+                Cursor nfcCursor = dbHelper.loadNFCs();
                 nfcCursor.moveToPosition(position);
                 String newNFCId = nfcCursor.getString(nfcCursor.getColumnIndexOrThrow(
                         NFCContract.NFCEntry._ID));
-                MainActivity.dbHelper.updateAlarm(alarmId, hour, minute, period, newNFCId, enabled);
+                dbHelper.updateAlarm(alarmId, hour, minute, period, newNFCId, enabled);
                 AlarmService.setAlarm(context, Integer.parseInt(alarmId), hour, minute, newNFCId);
             }
 

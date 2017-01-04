@@ -14,7 +14,7 @@ public class AlarmBootReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         if (intent.getAction().equals("android.intent.action.BOOT_COMPLETED"))
         {
-            Cursor alarmCursor = MainActivity.dbHelper.loadAlarms();
+            Cursor alarmCursor = DbHelper.getInstance(context).loadAlarms();
             if (alarmCursor.moveToFirst()) {
                 while (alarmCursor.isAfterLast() == false) {
                     int enabled = alarmCursor.getInt(alarmCursor.getColumnIndexOrThrow(AlarmContract.AlarmEntry.COLUMN_NAME_ENABLED));
