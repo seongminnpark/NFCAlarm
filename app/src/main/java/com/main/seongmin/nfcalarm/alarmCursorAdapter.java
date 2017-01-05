@@ -61,7 +61,7 @@ public class AlarmCursorAdapter extends CursorAdapter {
         int hour12 = hour % 12;
         if (hour12 == 0) { hour12 = 12; }
         String periodText = period == 0? "AM" : "PM";
-        String timeText = String.format("%d : %d %s", hour12, minute, periodText);
+        String timeText = String.format("%d : %02d %s", hour12, minute, periodText);
         alarmItemTime.setText(timeText);
 
         // Switch setup.
