@@ -12,9 +12,9 @@ import java.util.Calendar;
 /**
  * Created by seongmin on 12/21/16.
  */
-public class AlarmService extends IntentService {
+public class AlarmScheduleService extends IntentService {
 
-    public AlarmService() { super("AlarmService"); }
+    public AlarmScheduleService() { super("AlarmScheduleService"); }
 
     @Override
     protected void onHandleIntent(Intent intent) {

@@ -12,9 +12,6 @@
 
     <string name="alarm_active_tap_instruction">Tap</string>
 
-    <string name="alarm_active_notification_content_title">Alarm Active</string>
-    <string name="alarm_active_notification_content_text">Tap NFC to stop alarm</string>
-
     <string name="empty_nfc_id">No NFCs</string>
     <string name="empty_nfc_uid">No NFC Assigned</string>
     <string name="empty_nfc_name">No NFCs</string>
