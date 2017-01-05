@@ -10,6 +10,7 @@ import android.nfc.NfcAdapter;
 import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.TextView;
 
 /**
@@ -30,6 +31,11 @@ public class AlarmActiveActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarm_activate);
+
+        // Hide navigation bar.
+        View decorView = getWindow().getDecorView();
+        int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
+        decorView.setSystemUiVisibility(uiOptions);
 
         alarmTapInstructionTextView = (TextView) findViewById(R.id.alarmActiveTapInstruction);
         nfcUid = getIntent().getStringExtra(getString(R.string.intent_nfc_uid));
@@ -82,6 +88,7 @@ public class AlarmActiveActivity extends AppCompatActivity {
             if (tag == null) {
                 alarmTapInstructionTextView.setText(getString(R.string.invalid_tag_tapped));
             } else if (tagId.equals(nfcUid)) {
+                stopAlarm();
                 finish();
             } else {
                 alarmTapInstructionTextView.setText(Utils.convertTagIDToHexString(tag.getId()));
@@ -89,9 +96,7 @@ public class AlarmActiveActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
+    public void stopAlarm() {
         alarmPlayer.stop();
     }
 
