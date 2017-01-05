@@ -23,7 +23,7 @@ public class AlarmBootReceiver extends BroadcastReceiver {
                         int hour = alarmCursor.getInt(alarmCursor.getColumnIndexOrThrow(AlarmContract.AlarmEntry.COLUMN_NAME_HOUR));
                         int minute = alarmCursor.getInt(alarmCursor.getColumnIndexOrThrow(AlarmContract.AlarmEntry.COLUMN_NAME_MINUTE));
                         String nfcId = alarmCursor.getString(alarmCursor.getColumnIndexOrThrow(AlarmContract.AlarmEntry.COLUMN_NAME_NFC));
-                        AlarmService.setAlarm(context.getApplicationContext(), alarmId, hour, minute, nfcId);
+                        AlarmScheduleService.setAlarm(context.getApplicationContext(), alarmId, hour, minute, nfcId);
                     }
                     alarmCursor.moveToNext();
                 }
