@@ -15,7 +15,6 @@ import com.main.seongmin.nfcalarm.AlarmContract.AlarmEntry;
 public class DbHelper extends SQLiteOpenHelper {
 
     private static DbHelper instance;
-    private Context context;
 
     private static final String TYPE_TEXT = " TEXT";
     private static final String TYPE_INTEGER = " INTEGER";
@@ -44,7 +43,6 @@ public class DbHelper extends SQLiteOpenHelper {
     // Call getInstance instead.
     private DbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
-        this.context = context;
     }
 
     public static DbHelper getInstance(Context context) {
