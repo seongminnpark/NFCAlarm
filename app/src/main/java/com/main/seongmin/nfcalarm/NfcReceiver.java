@@ -7,8 +7,6 @@ import android.nfc.NfcAdapter;
 import android.nfc.Tag;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 /**
  * Created by seongmin on 12/24/16.
  */
