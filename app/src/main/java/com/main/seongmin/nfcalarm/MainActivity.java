@@ -11,6 +11,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.Window;
@@ -152,6 +153,9 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
                 alarmTextView.setText(hexTag);
             }
         }
+
+        // Enable add button only when nfc is scanned.
+        ((AlertDialog)nfcAddDialog.getDialog()).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
     }
 
     @Override

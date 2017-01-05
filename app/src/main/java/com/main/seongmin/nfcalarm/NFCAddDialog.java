@@ -44,7 +44,9 @@ public class NFCAddDialog extends DialogFragment {
                 )
                 .setNegativeButton("Cancel", null);
 
-        return builder.create();
+        AlertDialog dialog = builder.create();
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+        return dialog;
     }
 
     @Override
@@ -66,4 +68,5 @@ public class NFCAddDialog extends DialogFragment {
     public EditText getEditText() {
         return (EditText) getDialog().findViewById(R.id.addNFCName);
     }
+
 }
