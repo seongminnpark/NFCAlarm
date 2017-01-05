@@ -45,6 +45,7 @@ public class NFCAddDialog extends DialogFragment {
                 .setNegativeButton("Cancel", null);
 
         AlertDialog dialog = builder.create();
+        dialog.show();
         dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
         return dialog;
     }
