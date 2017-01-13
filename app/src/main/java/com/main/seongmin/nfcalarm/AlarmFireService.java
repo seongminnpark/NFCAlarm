@@ -23,18 +23,13 @@ public class AlarmFireService extends IntentService {
         String nfcName = intent.getStringExtra(getApplicationContext().getString(R.string.intent_nfc_name));
 
         // Show alarm active activity.
-        startAlarmActiveActivity(alarmId, nfcUid, nfcName);
-
-        AlarmReceiver.completeWakefulIntent(intent);
-    }
-
-    private void startAlarmActiveActivity(int alarmId, String nfcUid, String nfcName) {
         Intent alarmActiveActivityIntent = new Intent(getApplicationContext(), AlarmActiveActivity.class);
         alarmActiveActivityIntent.putExtra(getApplicationContext().getString(R.string.intent_alarm_id), alarmId);
         alarmActiveActivityIntent.putExtra(getString(R.string.intent_nfc_uid), nfcUid);
         alarmActiveActivityIntent.putExtra(getString(R.string.intent_nfc_name), nfcName);
 
         startActivity(alarmActiveActivityIntent);
-    }
 
+        AlarmReceiver.completeWakefulIntent(intent);
+    }
 }
