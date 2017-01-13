@@ -22,14 +22,33 @@ public class AlarmFireService extends IntentService {
         String nfcUid = intent.getStringExtra(getApplicationContext().getString(R.string.intent_nfc_uid));
         String nfcName = intent.getStringExtra(getApplicationContext().getString(R.string.intent_nfc_name));
 
-        Intent service = new Intent(getApplicationContext(), AlarmActiveService.class);
-        service.putExtra(getApplicationContext().getString(R.string.intent_alarm_id), alarmId);
-        service.putExtra(getApplicationContext().getString(R.string.intent_nfc_uid), nfcUid);
-        service.putExtra(getApplicationContext().getString(R.string.intent_nfc_name), nfcName);
+        // Start alarm active service.
+        startAlarmActiveService(alarmId, nfcUid, nfcName);
 
-        startService(service);
+        // Show alarm active activity.
+        startAlarmActiveActivity(alarmId, nfcUid, nfcName);
 
-        PendingIntent pendingIntent = PendingIntent.getService(this, 0, service, 0);
+        AlarmReceiver.completeWakefulIntent(intent);
+    }
+
+    private void startAlarmActiveService(int alarmId, String nfcUid, String nfcName) {
+
+        Intent alarmActiveServiceIntent = new Intent(getApplicationContext(), AlarmActiveService.class);
+        alarmActiveServiceIntent.putExtra(getApplicationContext().getString(R.string.intent_alarm_id), alarmId);
+        alarmActiveServiceIntent.putExtra(getApplicationContext().getString(R.string.intent_nfc_uid), nfcUid);
+        alarmActiveServiceIntent.putExtra(getApplicationContext().getString(R.string.intent_nfc_name), nfcName);
+
+        startService(alarmActiveServiceIntent);
+
+    }
+
+    private void startAlarmActiveActivity(int alarmId, String nfcUid, String nfcName) {
+        Intent alarmActiveActivityIntent = new Intent(getApplicationContext(), AlarmActiveActivity.class);
+        alarmActiveActivityIntent.putExtra(getApplicationContext().getString(R.string.intent_alarm_id), alarmId);
+        alarmActiveActivityIntent.putExtra(getString(R.string.intent_nfc_uid), nfcUid);
+        alarmActiveActivityIntent.putExtra(getString(R.string.intent_nfc_name), nfcName);
+
+        PendingIntent pendingIntent = PendingIntent.getService(this, 0, alarmActiveActivityIntent, 0);
 
         Notification alarmActiveNotification = new NotificationCompat.Builder(getApplicationContext())
                 .setSmallIcon(R.drawable.ic_alarm_white_24dp)
@@ -39,7 +58,7 @@ public class AlarmFireService extends IntentService {
 
         //startForeground(2441, alarmActiveNotification);
 
-        AlarmReceiver.completeWakefulIntent(intent);
+        startActivity(alarmActiveActivityIntent);
     }
 
 }

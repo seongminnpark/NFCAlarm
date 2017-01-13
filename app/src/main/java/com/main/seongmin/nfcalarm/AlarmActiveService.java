@@ -40,9 +40,6 @@ public class AlarmActiveService extends Service {
         LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(stopAlarmReceiver,
                 new IntentFilter(getString(R.string.stop_alarm_intent)));
 
-        // Show alarm active activity.
-        startAlarmActiveActivity();
-
         // Start playing alarm.
         AudioManager audioManager = (AudioManager) getSystemService(getApplicationContext().AUDIO_SERVICE);
         alarmPlayer = MediaPlayer.create(getApplicationContext(), RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM));
@@ -67,14 +64,6 @@ public class AlarmActiveService extends Service {
     @Override
     public void onDestroy() {
         unregisterReceiver(stopAlarmReceiver);
-    }
-
-    private void startAlarmActiveActivity() {
-        Intent alarmActiveActivityIntent = new Intent(getApplicationContext(), AlarmActiveActivity.class);
-        alarmActiveActivityIntent.putExtra(getString(R.string.intent_nfc_uid), nfcUid);
-        alarmActiveActivityIntent.putExtra(getString(R.string.intent_nfc_name), nfcName);
-
-        startActivity(alarmActiveActivityIntent);
     }
 
     private void stopAlarm() {
