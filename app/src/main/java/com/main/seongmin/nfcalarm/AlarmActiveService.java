@@ -1,5 +1,7 @@
 package com.main.seongmin.nfcalarm;
 
+import android.app.Notification;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -10,6 +12,7 @@ import android.media.MediaPlayer;
 import android.media.RingtoneManager;
 import android.os.IBinder;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.app.NotificationCompat;
 
 /**
  * Created by seongmin on 1/5/17.
@@ -21,12 +24,29 @@ public class AlarmActiveService extends Service {
     private String nfcName;
     private MediaPlayer alarmPlayer;
 
+    private static final int ALARM_ACTIVE_NOTIFICATION_ID = 2441;
+
     private final BroadcastReceiver stopAlarmReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             stopAlarm();
         }
     };
+
+    @Override
+    public void onCreate() {
+        Intent notificationIntent = new Intent(this, AlarmActiveService.class);
+
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
+
+        Notification alarmActiveNotification = new NotificationCompat.Builder(getApplicationContext())
+                .setSmallIcon(R.drawable.ic_alarm_white_24dp)
+                .setContentTitle(getApplicationContext().getString(R.string.alarm_active_notification_content_name))
+                .setContentText(getApplicationContext().getString(R.string.alarm_active_notification_content_text))
+                .setContentIntent(pendingIntent).build();
+
+        startForeground(AlarmActiveService.ALARM_ACTIVE_NOTIFICATION_ID, alarmActiveNotification);
+    }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -51,7 +71,7 @@ public class AlarmActiveService extends Service {
             e.printStackTrace();
         }
 
-        alarmPlayer.start();
+        //alarmPlayer.start();
 
         return START_STICKY;
     }
@@ -63,7 +83,7 @@ public class AlarmActiveService extends Service {
 
     @Override
     public void onDestroy() {
-        unregisterReceiver(stopAlarmReceiver);
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(stopAlarmReceiver);
     }
 
     private void stopAlarm() {

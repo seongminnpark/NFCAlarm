@@ -16,6 +16,7 @@ import android.widget.TextView;
  */
 public class AlarmActiveActivity extends AppCompatActivity {
 
+    private int alarmId;
     private String nfcUid;
     private String nfcName;
 
@@ -52,14 +53,19 @@ public class AlarmActiveActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarm_activate);
 
+        alarmId = getIntent().getIntExtra(getString(R.string.intent_alarm_id), 0);
+        nfcUid = getIntent().getStringExtra(getString(R.string.intent_nfc_uid));
+        nfcName = getIntent().getStringExtra(getString(R.string.intent_nfc_name));
+
+        // Start alarm active service.
+        startAlarmActiveService(alarmId, nfcUid, nfcName);
+
         // Hide navigation bar.
         View decorView = getWindow().getDecorView();
         int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
         decorView.setSystemUiVisibility(uiOptions);
 
         alarmTapInstructionTextView = (TextView) findViewById(R.id.alarmActiveTapInstruction);
-        nfcUid = getIntent().getStringExtra(getString(R.string.intent_nfc_uid));
-        nfcName = getIntent().getStringExtra(getString(R.string.intent_nfc_name));
         String tapInstruction = getString(R.string.alarm_active_tap_instruction) + " " + nfcName;
         alarmTapInstructionTextView.setText(tapInstruction);
 
@@ -78,6 +84,16 @@ public class AlarmActiveActivity extends AppCompatActivity {
         IntentFilter tagDetected = new IntentFilter(NfcAdapter.ACTION_TAG_DISCOVERED);
         IntentFilter[] writeTagFilters = new IntentFilter[] {tagDetected};
         nfcAdapter.enableForegroundDispatch(this, nfcPendingIntent, writeTagFilters, null);
+    }
+
+    private void startAlarmActiveService(int alarmId, String nfcUid, String nfcName) {
+
+        Intent alarmActiveServiceIntent = new Intent(getApplicationContext(), AlarmActiveService.class);
+        alarmActiveServiceIntent.putExtra(getApplicationContext().getString(R.string.intent_alarm_id), alarmId);
+        alarmActiveServiceIntent.putExtra(getApplicationContext().getString(R.string.intent_nfc_uid), nfcUid);
+        alarmActiveServiceIntent.putExtra(getApplicationContext().getString(R.string.intent_nfc_name), nfcName);
+
+        startService(alarmActiveServiceIntent);
     }
 
 }
