@@ -52,7 +52,7 @@ public class AlarmActiveActivity extends AppCompatActivity {
                 this, 0, new Intent(this, this.getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
 
         AudioManager audioManager = (AudioManager) getSystemService(getApplicationContext().AUDIO_SERVICE);
-       alarmPlayer = MediaPlayer.create(getApplicationContext(), RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM));
+        alarmPlayer = MediaPlayer.create(getApplicationContext(), RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM));
 
         try {
             float volume = (float) (audioManager.getStreamVolume(AudioManager.STREAM_ALARM));

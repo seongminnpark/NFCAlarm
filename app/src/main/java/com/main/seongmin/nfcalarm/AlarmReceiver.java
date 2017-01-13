@@ -15,7 +15,7 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
         String nfcUid = intent.getStringExtra(context.getString(R.string.intent_nfc_uid));
         String nfcName = intent.getStringExtra(context.getString(R.string.intent_nfc_name));
 
-        Intent service = new Intent(context, AlarmService.class);
+        Intent service = new Intent(context, AlarmScheduleService.class);
         service.putExtra(context.getString(R.string.intent_nfc_uid), nfcUid);
         service.putExtra(context.getString(R.string.intent_nfc_name), nfcName);
 

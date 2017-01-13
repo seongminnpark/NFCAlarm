@@ -30,7 +30,8 @@
             </intent-filter>
         </receiver>
 
-        <service android:name="com.main.seongmin.nfcalarm.AlarmService" />
+        <service android:name="com.main.seongmin.nfcalarm.AlarmScheduleService" />
+        <service android:name="com.main.seongmin.nfcalarm.AlarmActiveService" />
     </application>
 
 </manifest>
