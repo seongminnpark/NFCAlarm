@@ -8,8 +8,6 @@ import android.content.IntentFilter;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.RingtoneManager;
-import android.nfc.NfcAdapter;
-import android.nfc.Tag;
 import android.os.IBinder;
 import android.support.v4.content.LocalBroadcastManager;
 
@@ -18,53 +16,32 @@ import android.support.v4.content.LocalBroadcastManager;
  */
 public class AlarmActiveService extends Service {
 
-    public static final int NFC_NULL = 0;
-    public static final int NFC_VALID = 1;
-    public static final int NFC_INVALID = 2;
-
     private int alarmId;
     private String nfcUid;
     private String nfcName;
     private MediaPlayer alarmPlayer;
 
-    private final BroadcastReceiver nfcReceiver = new BroadcastReceiver() {
+    private final BroadcastReceiver stopAlarmReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-
-            System.out.println("Tag discovered!!");
-            final String action = intent.getAction();
-
-            if (action == null) {
-
-            } else if (action.equals(NfcAdapter.ACTION_TAG_DISCOVERED)) {
-                Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
-                String tagId = Utils.convertTagIDToHexString(tag.getId());
-
-                if (tag == null) {
-                    sendCommand(AlarmActiveService.NFC_NULL);
-                } else if (tagId.equals(nfcUid)) {
-                    sendCommand(AlarmActiveService.NFC_VALID);
-                } else {
-                    sendCommand(AlarmActiveService.NFC_INVALID);
-                }
-            }
+            stopAlarm();
         }
     };
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         super.onStartCommand(intent, flags, startId);
+
         alarmId = intent.getIntExtra(getString(R.string.intent_alarm_id),0);
         nfcUid = intent.getStringExtra(getString(R.string.intent_nfc_uid));
         nfcName = intent.getStringExtra(getString(R.string.intent_nfc_name));
 
+        // Set up alarm stop receiver.
+        LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(stopAlarmReceiver,
+                new IntentFilter(getString(R.string.stop_alarm_intent)));
+
         // Show alarm active activity.
         startAlarmActiveActivity();
-
-        // Set up NFC Receiver.
-        IntentFilter nfcFilter = new IntentFilter();
-        nfcFilter.addAction(NfcAdapter.ACTION_TAG_DISCOVERED);
-        registerReceiver(nfcReceiver, nfcFilter);
 
         // Start playing alarm.
         AudioManager audioManager = (AudioManager) getSystemService(getApplicationContext().AUDIO_SERVICE);
@@ -89,7 +66,7 @@ public class AlarmActiveService extends Service {
 
     @Override
     public void onDestroy() {
-        unregisterReceiver(nfcReceiver);
+        unregisterReceiver(stopAlarmReceiver);
     }
 
     private void startAlarmActiveActivity() {
@@ -100,21 +77,11 @@ public class AlarmActiveService extends Service {
         startActivity(alarmActiveActivityIntent);
     }
 
-    private void sendCommand(int nfcState) {
-
-        // Dismiss alarm.
-        Intent intent = new Intent(getString(R.string.alarm_active_intent_name));
-        intent.putExtra(getString(R.string.intent_nfc_state), nfcState);
-        intent.putExtra(getString(R.string.intent_nfc_uid), nfcUid);
-        intent.putExtra(getString(R.string.intent_nfc_name), nfcName);
-        LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
-
-        if (nfcState == AlarmActiveService.NFC_VALID) {
-            // Stop alarm sound.
-            alarmPlayer.stop();
-            AlarmScheduleService.cancelAlarm(getApplicationContext(), alarmId);
-            stopSelf();
-        }
+    private void stopAlarm() {
+        // Stop alarm sound.
+        alarmPlayer.stop();
+        //AlarmScheduleService.cancelAlarm(getApplicationContext(), alarmId);
+        stopSelf();
     }
 
 }
