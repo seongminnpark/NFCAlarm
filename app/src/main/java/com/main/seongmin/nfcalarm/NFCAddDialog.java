@@ -35,7 +35,7 @@ public class NFCAddDialog extends DialogFragment {
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 String name = getEditText().getText().toString().trim();
-                                if(name != null && !name.isEmpty()) { name = getString(R.string.add_nfc_empty_name) };
+                                if(name == null && name.isEmpty()) { name = getString(R.string.add_nfc_empty_name); };
                                 String uid = getTextView().getText().toString();
                                 DbHelper dbHelper = DbHelper.getInstance(getContext().getApplicationContext());
                                 dbHelper.saveNFC(name, uid);
