@@ -41,7 +41,11 @@ public class AlarmActiveActivity extends AppCompatActivity {
             } else if (tagId.equals(nfcUid)) {
                 Intent stopAlarmIntent = new Intent(getString(R.string.stop_alarm_intent));
                 LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(stopAlarmIntent);
-                finish();
+                if (MainActivity.active) {
+                    finish();
+                } else {
+                    finishAndRemoveTask();
+                }
             } else {
                 alarmTapInstructionTextView.setText(Utils.convertTagIDToHexString(tag.getId()));
             }

@@ -24,6 +24,8 @@ import android.widget.TextView;
  */
 public class MainActivity extends AppCompatActivity implements DialogInterface.OnDismissListener {
 
+    public static boolean active = false;
+
     private TabLayout tabLayout;
     private ViewPager viewPager;
     public static TabPagerAdapter pagerAdapter;
@@ -161,6 +163,18 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
     @Override
     public void onDismiss(final DialogInterface dialog) {
         animateFab();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        active = true;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        active = false;
     }
 
 }

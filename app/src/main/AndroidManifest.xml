@@ -19,9 +19,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".AlarmActiveActivity"
-            android:launchMode="singleTask">
-        </activity>
+        <activity android:name=".AlarmActiveActivity"></activity>
 
         <receiver android:name="com.main.seongmin.nfcalarm.AlarmReceiver"></receiver>
         <receiver android:name="com.main.seongmin.nfcalarm.AlarmBootReceiver">

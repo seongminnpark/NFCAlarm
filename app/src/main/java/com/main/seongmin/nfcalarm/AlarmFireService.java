@@ -1,10 +1,7 @@
 package com.main.seongmin.nfcalarm;
 
 import android.app.IntentService;
-import android.app.Notification;
-import android.app.PendingIntent;
 import android.content.Intent;
-import android.support.v7.app.NotificationCompat;
 
 /**
  * Created by seongmin on 1/14/17.

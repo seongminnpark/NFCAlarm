@@ -34,21 +34,6 @@ public class AlarmActiveService extends Service {
     };
 
     @Override
-    public void onCreate() {
-        Intent notificationIntent = new Intent(this, AlarmActiveService.class);
-
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
-
-        Notification alarmActiveNotification = new NotificationCompat.Builder(getApplicationContext())
-                .setSmallIcon(R.drawable.ic_alarm_white_24dp)
-                .setContentTitle(getApplicationContext().getString(R.string.alarm_active_notification_content_name))
-                .setContentText(getApplicationContext().getString(R.string.alarm_active_notification_content_text))
-                .setContentIntent(pendingIntent).build();
-
-        startForeground(AlarmActiveService.ALARM_ACTIVE_NOTIFICATION_ID, alarmActiveNotification);
-    }
-
-    @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         super.onStartCommand(intent, flags, startId);
 
@@ -56,22 +41,27 @@ public class AlarmActiveService extends Service {
         nfcUid = intent.getStringExtra(getString(R.string.intent_nfc_uid));
         nfcName = intent.getStringExtra(getString(R.string.intent_nfc_name));
 
+        // Show notification.
+        showNotification();
+
         // Set up alarm stop receiver.
         LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(stopAlarmReceiver,
                 new IntentFilter(getString(R.string.stop_alarm_intent)));
 
         // Start playing alarm.
         AudioManager audioManager = (AudioManager) getSystemService(getApplicationContext().AUDIO_SERVICE);
-        alarmPlayer = MediaPlayer.create(getApplicationContext(), RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM));
+        if (alarmPlayer == null) {
+            alarmPlayer = MediaPlayer.create(getApplicationContext(), RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM));
 
-        try {
-            float volume = (float) (audioManager.getStreamVolume(AudioManager.STREAM_ALARM));
-            alarmPlayer.setVolume(volume, volume);
-        } catch (Exception e) {
-            e.printStackTrace();
+            try {
+                float volume = (float) (audioManager.getStreamVolume(AudioManager.STREAM_ALARM));
+                alarmPlayer.setVolume(volume, volume);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            alarmPlayer.start();
         }
-
-        //alarmPlayer.start();
 
         return START_STICKY;
     }
@@ -84,6 +74,23 @@ public class AlarmActiveService extends Service {
     @Override
     public void onDestroy() {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(stopAlarmReceiver);
+    }
+
+    private void showNotification() {
+        Intent notificationIntent = new Intent(this, AlarmActiveActivity.class);
+        notificationIntent.putExtra(getApplicationContext().getString(R.string.intent_alarm_id), alarmId);
+        notificationIntent.putExtra(getString(R.string.intent_nfc_uid), nfcUid);
+        notificationIntent.putExtra(getString(R.string.intent_nfc_name), nfcName);
+
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        Notification alarmActiveNotification = new NotificationCompat.Builder(getApplicationContext())
+                .setSmallIcon(R.drawable.ic_alarm_white_24dp)
+                .setContentTitle(getApplicationContext().getString(R.string.alarm_active_notification_content_name))
+                .setContentText(getApplicationContext().getString(R.string.alarm_active_notification_content_text))
+                .setContentIntent(pendingIntent).build();
+
+        startForeground(AlarmActiveService.ALARM_ACTIVE_NOTIFICATION_ID, alarmActiveNotification);
     }
 
     private void stopAlarm() {

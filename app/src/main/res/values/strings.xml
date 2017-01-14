@@ -14,8 +14,8 @@
     <string name="intent_nfc_uid">nfc_uid</string>
 
 
-    <string name="alarm_active_notification_content_name">Tap</string>
-    <string name="alarm_active_notification_content_text">Click to stop tap nfc and stop alarm.</string>
+    <string name="alarm_active_notification_content_name">Alarm Ringing</string>
+    <string name="alarm_active_notification_content_text">Touch to tap nfc and stop alarm.</string>
 
     <string name="alarm_active_tap_instruction">Tap</string>
     <string name="nfc_instruction_null">Tag is null.</string>
