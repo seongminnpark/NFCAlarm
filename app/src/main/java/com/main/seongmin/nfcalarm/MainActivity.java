@@ -24,10 +24,13 @@ import android.widget.TextView;
  */
 public class MainActivity extends AppCompatActivity implements DialogInterface.OnDismissListener {
 
+    public static final int TAB_ALARM = 0;
+    public static final int TAB_NFC = 1;
+
     public static boolean active = false;
 
     private TabLayout tabLayout;
-    private ViewPager viewPager;
+    public static ViewPager viewPager;
     public static TabPagerAdapter pagerAdapter;
 
     private DbHelper dbHelper;
@@ -175,6 +178,10 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
     public void onStop() {
         super.onStop();
         active = false;
+    }
+
+    public static void showTab(int tabId) {
+        MainActivity.viewPager.setCurrentItem(tabId, true);
     }
 
 }

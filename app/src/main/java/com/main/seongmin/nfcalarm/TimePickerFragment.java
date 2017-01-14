@@ -56,5 +56,6 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
             AlarmScheduleService.setAlarm(getContext(), alarmId, hour, minute, firstNFCID);
         }
         MainActivity.alarmCursorAdapter.refreshAlarmList(dbHelper.loadAlarms());
+        MainActivity.showTab(MainActivity.TAB_ALARM);
     }
 }
