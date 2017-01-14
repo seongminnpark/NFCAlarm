@@ -5,6 +5,7 @@
     <string name="add_nfc_hint">Enter Name</string>
     <string name="add_nfc_id">ID:</string>
     <string name="add_nfc_tag">not scanned yet</string>
+    <string name="add_nfc_empty_name">No Name</string>
 
 
     <string name="alarm_active_intent_name">alarm_active_intent</string>
