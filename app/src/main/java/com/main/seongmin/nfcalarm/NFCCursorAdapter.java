@@ -40,7 +40,7 @@ public class NFCCursorAdapter extends CursorAdapter {
             @Override
             public void onClick(View v) {
                 dbHelper.deleteNFC(nfcId);
-                MainActivity.nfcCursorAdapter.refreshNFCList(dbHelper.loadNFCs());
+                MainActivity.nfcCursorAdapter.refreshNFCList(dbHelper.loadNFCsForSelection());
             }
         });
     }

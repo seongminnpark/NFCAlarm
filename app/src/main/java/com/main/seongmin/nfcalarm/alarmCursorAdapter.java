@@ -27,7 +27,7 @@ public class AlarmCursorAdapter extends CursorAdapter {
         super(context, cursor, 0);
         String[] fromColumns = { NFCContract.NFCEntry.COLUMN_NAME_NAME };
         int[] toViews = { android.R.id.text1};
-        Cursor nfcSpinnerCursor = DbHelper.getInstance(context).loadNFCs();
+        Cursor nfcSpinnerCursor = DbHelper.getInstance(context).loadNFCsForSelection();
         nfcSpinnerCursorAdapter = new SimpleCursorAdapter(
                 context, android.R.layout.simple_spinner_item, nfcSpinnerCursor, fromColumns, toViews,
                 CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER
@@ -94,12 +94,14 @@ public class AlarmCursorAdapter extends CursorAdapter {
         nfcSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> arg0, View view, int position, long id) {
-                Cursor nfcCursor = dbHelper.loadNFCs();
+                Cursor nfcCursor = dbHelper.loadNFCsForSelection();
                 nfcCursor.moveToPosition(position);
-                String newNFCId = nfcCursor.getString(nfcCursor.getColumnIndexOrThrow(
-                        NFCContract.NFCEntry._ID));
-                dbHelper.updateAlarm(alarmId, hour, minute, period, newNFCId, enabled);
-                AlarmScheduleService.setAlarm(context, Integer.parseInt(alarmId), hour, minute, newNFCId);
+                if (!nfcCursor.isFirst()){
+                    String newNFCId = nfcCursor.getString(nfcCursor.getColumnIndexOrThrow(
+                            NFCContract.NFCEntry._ID));
+                    dbHelper.updateAlarm(alarmId, hour, minute, period, newNFCId, enabled);
+                    AlarmScheduleService.setAlarm(context, Integer.parseInt(alarmId), hour, minute, newNFCId);
+                }
             }
 
             @Override

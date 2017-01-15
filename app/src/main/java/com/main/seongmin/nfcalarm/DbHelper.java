@@ -3,6 +3,8 @@ package com.main.seongmin.nfcalarm;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.MatrixCursor;
+import android.database.MergeCursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -39,6 +41,10 @@ public class DbHelper extends SQLiteOpenHelper {
 
     public static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "NFCAlarm.db";
+
+    public static final String EMPTY_NFC_ID = "-1";                // Keep this in sync with R.string.empty_nfc_id.
+    public static final String EMPTY_NFC_NAME = "No NFC Assigned"; // Keep this in sync with R.string.empty_nfc_name.
+    public static final String EMPTY_NFC_UID = "NO NFC";           // Keep this in sync with R.string.empty_nfc_uid.
 
     // Call getInstance instead.
     private DbHelper(Context context) {
@@ -179,6 +185,41 @@ public class DbHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
+    public Cursor loadNFCsForSelection() {
+
+        MatrixCursor defaultCursor = new MatrixCursor(new String[]{
+                NFCContract.NFCEntry._ID,
+                NFCContract.NFCEntry.COLUMN_NAME_NAME,
+                NFCContract.NFCEntry.COLUMN_NAME_UID });
+
+        // Add default row.
+        defaultCursor.addRow(new String[] { EMPTY_NFC_ID, EMPTY_NFC_NAME, EMPTY_NFC_UID });
+
+        // Dump nfc list into new cursorWithDefault.
+        Cursor cursor = loadNFCs();
+
+        Cursor[] cursors = { defaultCursor, cursor };
+        Cursor cursorWithDefault = new MergeCursor(cursors);
+
+//        if (cursor.getCount() > 0) {
+//            cursor.moveToFirst();
+//            for (int i=0; i<cursor.getCount(); i++)
+//            {
+//                Object[] column = new Object[]{
+//                        cursor.getInt(0),
+//                        " [" + cursor.getString(1)+"]"+cursor.getString(2),
+//                        cursor.getString(3)+" ["+cursor.getString(4)+"]",
+//                        cursor.getString(5),
+//                        cursor.getString(6)
+//                };
+//                result.addRow(column);
+//                cursor.moveToNext();
+//            }
+//        }
+
+        return cursorWithDefault;
+    }
+
     public void deleteNFC(String nfcId) {
         SQLiteDatabase db = getReadableDatabase();
 
@@ -208,6 +249,9 @@ public class DbHelper extends SQLiteOpenHelper {
     }
 
     public NFC getNFCWithId(String nfcId) {
+        if (nfcId.equals(EMPTY_NFC_ID)) {
+            return new NFC(EMPTY_NFC_NAME, EMPTY_NFC_NAME);
+        }
         SQLiteDatabase db = getReadableDatabase();
 
         String[] projection = {
@@ -229,10 +273,16 @@ public class DbHelper extends SQLiteOpenHelper {
                 null
         );
 
-        cursor.moveToFirst();
-        String uid = cursor.getString(cursor.getColumnIndexOrThrow(NFCContract.NFCEntry.COLUMN_NAME_UID));
-        String name = cursor.getString(cursor.getColumnIndexOrThrow(NFCContract.NFCEntry.COLUMN_NAME_NAME));
-        NFC nfc = new NFC(uid, name);
+        NFC nfc;
+        if (cursor.getCount() > 0) {
+            cursor.moveToFirst();
+            String uid = cursor.getString(cursor.getColumnIndexOrThrow(NFCContract.NFCEntry.COLUMN_NAME_UID));
+            String name = cursor.getString(cursor.getColumnIndexOrThrow(NFCContract.NFCEntry.COLUMN_NAME_NAME));
+            nfc = new NFC(uid, name);
+        } else {
+            // This branch will never get to this point, because inputs are sanitized before function call.
+            nfc = new NFC(EMPTY_NFC_NAME, EMPTY_NFC_NAME);
+        }
         return nfc;
     }
 
