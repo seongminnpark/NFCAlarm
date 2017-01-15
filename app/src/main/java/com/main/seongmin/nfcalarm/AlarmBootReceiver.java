@@ -16,7 +16,7 @@ public class AlarmBootReceiver extends BroadcastReceiver {
         {
             Cursor alarmCursor = DbHelper.getInstance(context).loadAlarms();
             if (alarmCursor.moveToFirst()) {
-                while (alarmCursor.isAfterLast() == false) {
+                while (!alarmCursor.isAfterLast()) {
                     int enabled = alarmCursor.getInt(alarmCursor.getColumnIndexOrThrow(AlarmContract.AlarmEntry.COLUMN_NAME_ENABLED));
                     if (enabled == 1)  {
                         int alarmId = alarmCursor.getInt(alarmCursor.getColumnIndexOrThrow(AlarmContract.AlarmEntry._ID));
