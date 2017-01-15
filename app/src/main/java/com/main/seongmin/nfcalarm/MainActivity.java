@@ -18,6 +18,7 @@ import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * Created by seongmin on 12/22/16.
@@ -81,8 +82,13 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
         nfcAdapter = NfcAdapter.getDefaultAdapter(this);
         nfcCursorAdapter = new NFCCursorAdapter(this, dbHelper.loadNFCs());
 
-        if (nfcAdapter == null || !nfcAdapter.isEnabled()) {
-            return;
+        if (nfcAdapter == null) {
+            Toast.makeText(getApplicationContext(), "This application requires NFC capability.", Toast.LENGTH_LONG).show();
+            startActivity(new Intent(android.provider.Settings.ACTION_WIRELESS_SETTINGS));
+            finish();
+        } else if (!nfcAdapter.isEnabled()) {
+            Toast.makeText(getApplicationContext(), "Please activate NFC and press Back to return to the application!", Toast.LENGTH_LONG).show();
+            startActivity(new Intent(android.provider.Settings.ACTION_WIRELESS_SETTINGS));
         }
 
         nfcPendingIntent = PendingIntent.getActivity(
@@ -93,6 +99,7 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
         toPlus = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.toplus);
         appear = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.appear);
         disappear = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.disappear);
+
     }
 
     private void animateFab() {
