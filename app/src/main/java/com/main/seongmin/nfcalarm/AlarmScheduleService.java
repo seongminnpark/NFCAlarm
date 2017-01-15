@@ -28,6 +28,7 @@ public class AlarmScheduleService {
         }
 
         Intent intent = new Intent(context, AlarmReceiver.class);
+        intent.putExtra(context.getString(R.string.intent_nfc_id), nfcId);
         intent.putExtra(context.getString(R.string.intent_nfc_uid), nfcUid);
         intent.putExtra(context.getString(R.string.intent_nfc_name), nfcName);
         PendingIntent alarmIntent = PendingIntent.getBroadcast(

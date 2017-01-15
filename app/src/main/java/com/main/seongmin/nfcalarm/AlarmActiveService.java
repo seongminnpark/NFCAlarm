@@ -20,6 +20,7 @@ import android.support.v7.app.NotificationCompat;
 public class AlarmActiveService extends Service {
 
     private int alarmId;
+    private String nfcId;
     private String nfcUid;
     private String nfcName;
     private MediaPlayer alarmPlayer;
@@ -38,6 +39,7 @@ public class AlarmActiveService extends Service {
         super.onStartCommand(intent, flags, startId);
 
         alarmId = intent.getIntExtra(getString(R.string.intent_alarm_id),0);
+        nfcId = intent.getStringExtra(getString(R.string.intent_nfc_id));
         nfcUid = intent.getStringExtra(getString(R.string.intent_nfc_uid));
         nfcName = intent.getStringExtra(getString(R.string.intent_nfc_name));
 
@@ -79,6 +81,7 @@ public class AlarmActiveService extends Service {
     private void showNotification() {
         Intent notificationIntent = new Intent(this, AlarmActiveActivity.class);
         notificationIntent.putExtra(getApplicationContext().getString(R.string.intent_alarm_id), alarmId);
+        notificationIntent.putExtra(getString(R.string.intent_nfc_id), nfcId);
         notificationIntent.putExtra(getString(R.string.intent_nfc_uid), nfcUid);
         notificationIntent.putExtra(getString(R.string.intent_nfc_name), nfcName);
 

@@ -17,6 +17,7 @@ import android.widget.TextView;
 public class AlarmActiveActivity extends AppCompatActivity {
 
     private int alarmId;
+    private String nfcId;
     private String nfcUid;
     private String nfcName;
 
@@ -58,6 +59,7 @@ public class AlarmActiveActivity extends AppCompatActivity {
         setContentView(R.layout.activity_alarm_activate);
 
         alarmId = getIntent().getIntExtra(getString(R.string.intent_alarm_id), 0);
+        nfcId = getIntent().getStringExtra(getString(R.string.intent_nfc_id));
         nfcUid = getIntent().getStringExtra(getString(R.string.intent_nfc_uid));
         nfcName = getIntent().getStringExtra(getString(R.string.intent_nfc_name));
 
@@ -79,6 +81,7 @@ public class AlarmActiveActivity extends AppCompatActivity {
             nfcPendingIntent = PendingIntent.getActivity(
                     this, 0, new Intent(this, this.getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
         }
+
     }
 
     @Override

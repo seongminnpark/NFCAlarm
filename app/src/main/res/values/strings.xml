@@ -11,6 +11,7 @@
     <string name="alarm_active_intent_name">alarm_active_intent</string>
     <string name="intent_alarm_id">alarm_id</string>
     <string name="intent_nfc_state">nfc_state</string>
+    <string name="intent_nfc_id">nfc_id</string>
     <string name="intent_nfc_name">nfc_name</string>
     <string name="intent_nfc_uid">nfc_uid</string>
 
