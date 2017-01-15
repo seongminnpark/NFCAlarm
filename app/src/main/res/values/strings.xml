@@ -7,19 +7,19 @@
     <string name="add_nfc_tag">not scanned yet</string>
     <string name="add_nfc_empty_name">No Name</string>
 
-
     <string name="alarm_active_intent_name">alarm_active_intent</string>
     <string name="intent_alarm_id">alarm_id</string>
     <string name="intent_nfc_state">nfc_state</string>
+    <string name="intent_no_nfc">no_nfc</string>
     <string name="intent_nfc_id">nfc_id</string>
     <string name="intent_nfc_name">nfc_name</string>
     <string name="intent_nfc_uid">nfc_uid</string>
-
 
     <string name="alarm_active_notification_content_name">Alarm Ringing</string>
     <string name="alarm_active_notification_content_text">Touch to tap nfc and stop alarm.</string>
 
     <string name="alarm_active_tap_instruction">Tap</string>
+    <string name="alarm_active_tap_instruction_no_nfc">No NFC Assigned!</string>
     <string name="nfc_instruction_null">Tag is null.</string>
     <string name="nfc_instruction_valid">Correct nfc tag. Dismissing.</string>
     <string name="nfc_instruction_invalid">Wrong nfc tag!</string>
@@ -32,4 +32,6 @@
     <string name="empty_nfc_name">No NFC Assigned</string>
 
     <string name="invalid_tag_tapped">Invalid tag tapped</string>
+
+    <string name="dismissAlarmButtonText">Dismiss Alarm</string>
 </resources>

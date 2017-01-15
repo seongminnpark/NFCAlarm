@@ -17,6 +17,7 @@ public class AlarmScheduleService {
 
         String nfcUid;
         String nfcName;
+        boolean noNFC = nfcId.equals(context.getString(R.string.empty_nfc_id));
 
         if (nfcId == context.getString(R.string.empty_nfc_id)) {
             nfcUid = context.getString(R.string.empty_nfc_uid);
@@ -28,6 +29,7 @@ public class AlarmScheduleService {
         }
 
         Intent intent = new Intent(context, AlarmReceiver.class);
+        intent.putExtra(context.getString(R.string.intent_no_nfc), noNFC);
         intent.putExtra(context.getString(R.string.intent_nfc_id), nfcId);
         intent.putExtra(context.getString(R.string.intent_nfc_uid), nfcUid);
         intent.putExtra(context.getString(R.string.intent_nfc_name), nfcName);
