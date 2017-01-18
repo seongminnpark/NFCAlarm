@@ -34,7 +34,7 @@ public class AlarmScheduleService {
         intent.putExtra(context.getString(R.string.intent_nfc_uid), nfcUid);
         intent.putExtra(context.getString(R.string.intent_nfc_name), nfcName);
         PendingIntent alarmIntent = PendingIntent.getBroadcast(
-                context.getApplicationContext(), alarmId, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+                context.getApplicationContext(), alarmId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
@@ -51,8 +51,9 @@ public class AlarmScheduleService {
 
         if (alarmManager!= null) {
             Intent intent = new Intent(context, AlarmReceiver.class);
-            alarmManager.cancel(PendingIntent.getBroadcast(
-                    context.getApplicationContext(), alarmId, intent, PendingIntent.FLAG_UPDATE_CURRENT));
+            PendingIntent alarmToCancel = PendingIntent.getBroadcast(
+                    context.getApplicationContext(), alarmId, intent, PendingIntent.FLAG_NO_CREATE);
+            if (alarmToCancel != null) { alarmManager.cancel(alarmToCancel); }
         }
     }
 
